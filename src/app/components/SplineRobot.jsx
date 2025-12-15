@@ -9,7 +9,7 @@ export default function SplineRobot({ className = "", style = {} }) {
       className={className}
       style={{ width: "100%", height: "100%", ...style }}
     >
-      <Spline scene="./scene-clean.splinecode" />
+      <Spline scene="https://prod.spline.design/FVWhrgXbZnxB9lHz/scene.splinecode" />
     </div>
   );
 }
