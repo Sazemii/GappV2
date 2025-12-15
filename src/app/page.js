@@ -1,4 +1,5 @@
 import LedMatrix from "./components/LedMatrix";
+import SplineRobot from "./components/SplineRobot";
 
 export default function Home() {
   return (
@@ -30,6 +31,10 @@ export default function Home() {
               and fades towards the top.
             </p>
           </div> */}
+          <SplineRobot
+            className="robot-container"
+            style={{ height: "500px" }}
+          />
         </div>
 
         {/* Additional content sections with white background */}
