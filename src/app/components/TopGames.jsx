@@ -63,7 +63,7 @@ export default function TopGames() {
     fetchGames();
   }, []);
 
-  const displayedGames = showAll ? games : games.slice(0, 3);
+  const displayedGames = showAll ? games.slice(0, 10) : games.slice(0, 3);
   const maxLast30Days = Math.max(...games.map((g) => g.last30Days), 1);
 
   if (loading) {
