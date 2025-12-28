@@ -1,6 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.akamai.steamstatic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.steamstatic.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
