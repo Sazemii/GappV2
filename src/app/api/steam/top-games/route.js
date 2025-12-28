@@ -18,9 +18,9 @@ export async function GET() {
       appid: row.appid,
       name: row.game_name,
       currentPlayers: row.player_count || 0,
-      peakPlayers: row.player_count || 0, // You'll need to track this separately
+      peakPlayers: row.player_count || 0,
       last30Days: row.player_count || 0,
-      hoursPlayed: 0, // You'll need to calculate this
+      hoursPlayed: 0,
       headerImage: `https://cdn.cloudflare.steamstatic.com/steam/apps/${row.appid}/header.jpg`,
     }));
 
