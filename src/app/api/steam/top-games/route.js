@@ -9,6 +9,8 @@ export async function GET() {
         player_count, 
         timestamp
        FROM steam_player_data
+       ORDER BY appid, timestamp DESC
+      ) AS latest_data
        ORDER BY player_count DESC
        LIMIT 100`
     );
