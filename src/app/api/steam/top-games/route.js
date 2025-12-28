@@ -3,18 +3,22 @@ import pool from "@/lib/db.js";
 export async function GET() {
   try {
     const result = await pool.query(
-      `SELECT DISTINCT ON (appid) 
-        appid, 
+      `SELECT appid, 
         game_name, 
         player_count, 
         timestamp
-       FROM steam_player_data
-       ORDER BY appid, timestamp DESC
-      ) AS latest_data
+       FROM (
+         SELECT DISTINCT ON (appid) 
+           appid, 
+           game_name, 
+           player_count, 
+           timestamp
+         FROM steam_player_data
+         ORDER BY appid, timestamp DESC
+       ) AS latest_data
        ORDER BY player_count DESC
        LIMIT 100`
     );
-
     // Transform the data to match component expectations
     const games = result.rows.map((row) => ({
       appid: row.appid,
