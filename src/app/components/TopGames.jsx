@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,27 +23,7 @@ ChartJS.register(
 
 // Mini line chart component for the table cell
 function MiniLineChart({ data, maxValue }) {
-  const gradientPlugin = {
-    id: "gradientPlugin",
-    beforeDraw: (chart) => {
-      const ctx = chart.ctx;
-      const chartArea = chart.chartArea;
-      if (!chartArea) return;
-
-      const dataset = chart.data.datasets[0];
-      const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-      gradient.addColorStop(0, "#FD4895");
-      gradient.addColorStop(0.5, "#4807EA");
-      gradient.addColorStop(1, "#06D7F6");
-      dataset.borderColor = gradient;
-
-      const fillGradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-      fillGradient.addColorStop(0, "rgba(253, 72, 149, 0.2)");
-      fillGradient.addColorStop(0.5, "rgba(72, 7, 234, 0.15)");
-      fillGradient.addColorStop(1, "rgba(6, 215, 246, 0.1)");
-      dataset.backgroundColor = fillGradient;
-    },
-  };
+  const chartRef = useRef(null);
 
   const options = {
     responsive: true,
@@ -74,7 +54,7 @@ function MiniLineChart({ data, maxValue }) {
     },
     elements: {
       line: {
-        borderWidth: 2,
+        borderWidth: 3,
         tension: 0.4,
       },
       point: {
@@ -82,36 +62,68 @@ function MiniLineChart({ data, maxValue }) {
         hoverRadius: 3,
       },
     },
-    onHover: (event, activeElements) => {
-      event.native.target.style.cursor = activeElements.length > 0 ? "pointer" : "default";
-    },
   };
 
+  useEffect(() => {
+    const chart = chartRef.current;
+    if (!chart) return;
+
+    const updateGradient = () => {
+      const ctx = chart.ctx;
+      const chartArea = chart.chartArea;
+
+      if (chartArea) {
+        // Violet gradient
+        const gradient = ctx.createLinearGradient(
+          chartArea.left,
+          0,
+          chartArea.right,
+          0
+        );
+        gradient.addColorStop(0, "#A78BFA");
+        gradient.addColorStop(1, "#C084FC");
+
+        // Fill gradient (vertical, fading down)
+        const fillGradient = ctx.createLinearGradient(
+          0,
+          chartArea.top,
+          0,
+          chartArea.bottom
+        );
+        fillGradient.addColorStop(0, "rgba(167, 139, 250, 0.3)");
+        fillGradient.addColorStop(1, "rgba(192, 132, 252, 0)");
+
+        chart.data.datasets[0].borderColor = gradient;
+        chart.data.datasets[0].backgroundColor = fillGradient;
+        chart.update("none");
+      }
+    };
+
+    // Run after chart is fully rendered
+    setTimeout(updateGradient, 0);
+  }, [data]);
+
   return (
-    <div className="w-full h-12 bg-[#252525] rounded-lg overflow-hidden relative p-1">
+    <div className="w-32 h-10 rounded-lg overflow-hidden relative">
       <Line
+        key={data.map((d) => d.value).join(",")}
+        ref={chartRef}
         data={{
           labels: data.map((_, i) => ""),
           datasets: [
             {
               data: data.map((d) => d.value),
-              borderColor: "#06D7F6", // Fallback, will be overridden by plugin
-              backgroundColor: "rgba(6, 215, 246, 0.1)", // Fallback, will be overridden by plugin
+              borderColor: "#8B5CF6",
+              backgroundColor: "transparent",
               fill: true,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointHoverBackgroundColor: "#06D7F6",
-              pointHoverBorderColor: "#06D7F6",
             },
           ],
         }}
         options={options}
-        plugins={[gradientPlugin]}
       />
     </div>
   );
 }
-
 function formatNumber(num) {
   if (num >= 1000000) {
     return (num / 1000000).toFixed(1) + "M";
@@ -192,15 +204,11 @@ export default function TopGames() {
               <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
                 <th className="text-left py-2 px-2 font-medium">#</th>
                 <th className="text-left py-2 px-2 font-medium">Name</th>
-                <th className="text-right py-2 px-2 font-medium">
-                  Current
-                </th>
+                <th className="text-right py-2 px-2 font-medium">Current</th>
                 <th className="text-left py-2 px-2 font-medium w-24">
                   Last 48h
                 </th>
-                <th className="text-right py-2 px-2 font-medium">
-                  Peak
-                </th>
+                <th className="text-right py-2 px-2 font-medium">Peak</th>
               </tr>
             </thead>
             <tbody>
@@ -224,12 +232,13 @@ export default function TopGames() {
                       </span>
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-right font-mono text-[#06D7F6] text-xs">
+                  <td className="py-2 px-2 text-right font-mono text-[#dfb0ff] text-xs">
                     {formatNumber(game.currentPlayers)}
                   </td>
                   <td className="py-2 px-2 w-24">
                     {game.last48Hours && game.last48Hours.length > 0 ? (
                       <MiniLineChart
+                        key={`${game.appid}-${showAll}`}
                         data={game.last48Hours}
                         maxValue={maxLast48Hours}
                       />
@@ -272,7 +281,7 @@ export default function TopGames() {
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>
                   <p className="text-[#A1A1A1] text-[10px]">Current</p>
-                  <p className="text-[#06D7F6] font-mono text-xs">
+                  <p className="text-[#dfb0ff] font-mono text-xs">
                     {formatNumber(game.currentPlayers)}
                   </p>
                 </div>
@@ -288,6 +297,7 @@ export default function TopGames() {
                 <p className="text-[#A1A1A1] text-[10px] mb-1">Last 48 Hours</p>
                 {game.last48Hours && game.last48Hours.length > 0 ? (
                   <MiniLineChart
+                    key={`${game.appid}-${showAll}`}
                     data={game.last48Hours}
                     maxValue={maxLast48Hours}
                   />
