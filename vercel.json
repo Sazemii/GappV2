@@ -1,8 +1,1 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/collect-steam-data",
-      "schedule": "0 0 * * *"
-    }
-  ]
-}
+{}
