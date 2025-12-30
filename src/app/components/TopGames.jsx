@@ -5,26 +5,108 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
+  PointElement,
   Tooltip,
+  Filler,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Tooltip,
+  Filler
+);
 
-// Mini bar chart component for the table cell
-function MiniBarChart({ value, maxValue }) {
-  const percentage = maxValue > 0 ? (value / maxValue) * 100 : 0;
+// Mini line chart component for the table cell
+function MiniLineChart({ data, maxValue }) {
+  const gradientPlugin = {
+    id: "gradientPlugin",
+    beforeDraw: (chart) => {
+      const ctx = chart.ctx;
+      const chartArea = chart.chartArea;
+      if (!chartArea) return;
+
+      const dataset = chart.data.datasets[0];
+      const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+      gradient.addColorStop(0, "#FD4895");
+      gradient.addColorStop(0.5, "#4807EA");
+      gradient.addColorStop(1, "#06D7F6");
+      dataset.borderColor = gradient;
+
+      const fillGradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+      fillGradient.addColorStop(0, "rgba(253, 72, 149, 0.2)");
+      fillGradient.addColorStop(0.5, "rgba(72, 7, 234, 0.15)");
+      fillGradient.addColorStop(1, "rgba(6, 215, 246, 0.1)");
+      dataset.backgroundColor = fillGradient;
+    },
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+    scales: {
+      x: {
+        display: false,
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        display: false,
+        min: 0,
+        max: maxValue,
+        grid: {
+          display: false,
+        },
+      },
+    },
+    elements: {
+      line: {
+        borderWidth: 2,
+        tension: 0.4,
+      },
+      point: {
+        radius: 0,
+        hoverRadius: 3,
+      },
+    },
+    onHover: (event, activeElements) => {
+      event.native.target.style.cursor = activeElements.length > 0 ? "pointer" : "default";
+    },
+  };
 
   return (
-    <div className="w-full h-6 bg-[#252525] rounded-md overflow-hidden relative">
-      <div
-        className="h-full rounded-md transition-all duration-500"
-        style={{
-          width: `${percentage}%`,
-          background:
-            "linear-gradient(90deg, #06D7F6 0%, #4807EA 50%, #FD4895 100%)",
+    <div className="w-full h-12 bg-[#252525] rounded-lg overflow-hidden relative p-1">
+      <Line
+        data={{
+          labels: data.map((_, i) => ""),
+          datasets: [
+            {
+              data: data.map((d) => d.value),
+              borderColor: "#06D7F6", // Fallback, will be overridden by plugin
+              backgroundColor: "rgba(6, 215, 246, 0.1)", // Fallback, will be overridden by plugin
+              fill: true,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointHoverBackgroundColor: "#06D7F6",
+              pointHoverBorderColor: "#06D7F6",
+            },
+          ],
         }}
+        options={options}
+        plugins={[gradientPlugin]}
       />
     </div>
   );
@@ -64,17 +146,20 @@ export default function TopGames() {
   }, []);
 
   const displayedGames = showAll ? games.slice(0, 10) : games.slice(0, 3);
-  const maxLast30Days = Math.max(...games.map((g) => g.last30Days), 1);
+  const maxLast48Hours = Math.max(
+    ...games.flatMap((g) => (g.last48Hours || []).map((d) => d.value)),
+    1
+  );
 
   if (loading) {
     return (
-      <div className="w-full max-w-5xl mx-auto px-4">
-        <div className="bg-[#1B1B1B] rounded-2xl p-6">
+      <div className="w-full max-w-4xl mx-auto px-4">
+        <div className="bg-[#1B1B1B] rounded-xl p-3 sm:p-4">
           <div className="animate-pulse">
-            <div className="h-6 bg-[#252525] rounded w-64 mb-6"></div>
-            <div className="space-y-3">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-12 bg-[#252525] rounded"></div>
+            <div className="h-5 bg-[#252525] rounded w-48 mb-4"></div>
+            <div className="space-y-2">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="h-10 bg-[#252525] rounded"></div>
               ))}
             </div>
           </div>
@@ -85,18 +170,18 @@ export default function TopGames() {
 
   if (error) {
     return (
-      <div className="w-full max-w-5xl mx-auto px-4">
-        <div className="bg-[#1B1B1B] rounded-2xl p-6">
-          <p className="text-red-400">Error loading games: {error}</p>
+      <div className="w-full max-w-4xl mx-auto px-4">
+        <div className="bg-[#1B1B1B] rounded-xl p-3 sm:p-4">
+          <p className="text-red-400 text-sm">Error loading games: {error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4">
-      <div className="bg-[#1B1B1B] rounded-2xl p-4 sm:p-6">
-        <h2 className="font-['Inter'] text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6">
+    <div className="w-full max-w-4xl mx-auto px-4">
+      <div className="bg-[#1B1B1B] rounded-xl p-3 sm:p-4">
+        <h2 className="font-['Inter'] text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">
           Top Games By Current Players
         </h2>
 
@@ -104,20 +189,17 @@ export default function TopGames() {
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-[#A1A1A1] text-sm font-['Inter'] border-b border-[#2A2A2A]">
-                <th className="text-left py-3 px-2 font-medium">#</th>
-                <th className="text-left py-3 px-2 font-medium">Name</th>
-                <th className="text-right py-3 px-2 font-medium">
-                  Current Players
+              <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
+                <th className="text-left py-2 px-2 font-medium">#</th>
+                <th className="text-left py-2 px-2 font-medium">Name</th>
+                <th className="text-right py-2 px-2 font-medium">
+                  Current
                 </th>
-                <th className="text-left py-3 px-2 font-medium w-32">
-                  Last 30 Days
+                <th className="text-left py-2 px-2 font-medium w-24">
+                  Last 48h
                 </th>
-                <th className="text-right py-3 px-2 font-medium">
-                  Peak Players
-                </th>
-                <th className="text-right py-3 px-2 font-medium">
-                  Hours Played
+                <th className="text-right py-2 px-2 font-medium">
+                  Peak
                 </th>
               </tr>
             </thead>
@@ -125,37 +207,38 @@ export default function TopGames() {
               {displayedGames.map((game, index) => (
                 <tr
                   key={game.appid}
-                  className="text-white text-sm font-['Inter'] border-b border-[#2A2A2A] hover:bg-[#252525] transition-colors"
+                  className="text-white text-xs font-['Inter'] border-b border-[#2A2A2A] hover:bg-[#252525] transition-colors"
                 >
-                  <td className="py-3 px-2 text-[#A1A1A1]">{index + 1}</td>
-                  <td className="py-3 px-2">
-                    <div className="flex items-center gap-3">
+                  <td className="py-2 px-2 text-[#A1A1A1]">{index + 1}</td>
+                  <td className="py-2 px-2">
+                    <div className="flex items-center gap-2">
                       {game.headerImage && (
                         <img
                           src={game.headerImage}
                           alt={game.name}
-                          className="w-10 h-10 object-cover rounded"
+                          className="w-8 h-8 object-cover rounded"
                         />
                       )}
-                      <span className="truncate max-w-[200px]">
+                      <span className="truncate max-w-[180px] text-xs">
                         {game.name}
                       </span>
                     </div>
                   </td>
-                  <td className="py-3 px-2 text-right font-mono text-[#06D7F6]">
+                  <td className="py-2 px-2 text-right font-mono text-[#06D7F6] text-xs">
                     {formatNumber(game.currentPlayers)}
                   </td>
-                  <td className="py-3 px-2 w-32">
-                    <MiniBarChart
-                      value={game.last30Days}
-                      maxValue={maxLast30Days}
-                    />
+                  <td className="py-2 px-2 w-24">
+                    {game.last48Hours && game.last48Hours.length > 0 ? (
+                      <MiniLineChart
+                        data={game.last48Hours}
+                        maxValue={maxLast48Hours}
+                      />
+                    ) : (
+                      <div className="w-full h-12 bg-[#252525] rounded-lg"></div>
+                    )}
                   </td>
-                  <td className="py-3 px-2 text-right font-mono">
+                  <td className="py-2 px-2 text-right font-mono text-xs">
                     {formatNumber(game.peakPlayers)}
-                  </td>
-                  <td className="py-3 px-2 text-right font-mono text-[#A1A1A1]">
-                    {formatNumber(game.hoursPlayed)}K
                   </td>
                 </tr>
               ))}
@@ -164,66 +247,64 @@ export default function TopGames() {
         </div>
 
         {/* Mobile Cards */}
-        <div className="md:hidden space-y-3">
+        <div className="md:hidden space-y-2">
           {displayedGames.map((game, index) => (
             <div
               key={game.appid}
-              className="bg-[#252525] rounded-xl p-4 space-y-3"
+              className="bg-[#252525] rounded-lg p-3 space-y-2"
             >
-              <div className="flex items-center gap-3">
-                <span className="text-[#A1A1A1] font-mono text-sm w-5">
+              <div className="flex items-center gap-2">
+                <span className="text-[#A1A1A1] font-mono text-xs w-4">
                   {index + 1}
                 </span>
                 {game.headerImage && (
                   <img
                     src={game.headerImage}
                     alt={game.name}
-                    className="w-12 h-12 object-cover rounded"
+                    className="w-10 h-10 object-cover rounded"
                   />
                 )}
-                <span className="text-white font-['Inter'] text-sm truncate flex-1">
+                <span className="text-white font-['Inter'] text-xs truncate flex-1">
                   {game.name}
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <p className="text-[#A1A1A1]">Current</p>
-                  <p className="text-[#06D7F6] font-mono">
+                  <p className="text-[#A1A1A1] text-[10px]">Current</p>
+                  <p className="text-[#06D7F6] font-mono text-xs">
                     {formatNumber(game.currentPlayers)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[#A1A1A1]">Peak</p>
-                  <p className="text-white font-mono">
+                  <p className="text-[#A1A1A1] text-[10px]">Peak</p>
+                  <p className="text-white font-mono text-xs">
                     {formatNumber(game.peakPlayers)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-[#A1A1A1]">Hours</p>
-                  <p className="text-[#A1A1A1] font-mono">
-                    {formatNumber(game.hoursPlayed)}K
                   </p>
                 </div>
               </div>
 
               <div>
-                <p className="text-[#A1A1A1] text-xs mb-1">Last 30 Days</p>
-                <MiniBarChart
-                  value={game.last30Days}
-                  maxValue={maxLast30Days}
-                />
+                <p className="text-[#A1A1A1] text-[10px] mb-1">Last 48 Hours</p>
+                {game.last48Hours && game.last48Hours.length > 0 ? (
+                  <MiniLineChart
+                    data={game.last48Hours}
+                    maxValue={maxLast48Hours}
+                  />
+                ) : (
+                  <div className="w-full h-12 bg-[#252525] rounded-lg"></div>
+                )}
               </div>
             </div>
           ))}
         </div>
 
         {/* Show More / Show Less */}
-        {games.length > 5 && (
-          <div className="mt-4 flex justify-center">
+        {games.length > 3 && (
+          <div className="mt-3 flex justify-center">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="flex items-center gap-2 text-[#A1A1A1] hover:text-white transition-colors text-sm font-['Inter'] px-4 py-2 rounded-lg bg-[#252525] hover:bg-[#2A2A2A]"
+              className="flex items-center gap-2 text-[#A1A1A1] hover:text-white transition-colors text-xs font-['Inter'] px-3 py-1.5 rounded-lg bg-[#252525] hover:bg-[#2A2A2A]"
             >
               {showAll ? (
                 <>
