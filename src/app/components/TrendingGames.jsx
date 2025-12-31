@@ -219,7 +219,7 @@ export default function TrendingGames() {
                 <th className="text-left py-2 px-2 font-medium w-24">
                   Last 48h
                 </th>
-                <th className="text-left py-2 font-medium text-[11px]">
+                <th className="text-left py-2 font-medium text-[10px] whitespace-nowrap">
                   24h Change
                 </th>
               </tr>
