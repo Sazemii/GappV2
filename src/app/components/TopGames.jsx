@@ -69,7 +69,7 @@ function MiniLineChart({ data, maxValue }) {
     if (!chart) return;
 
     const updateGradient = () => {
-      const ctx = chart.ctx || (chart.canvas && chart.canvas.getContext('2d'));
+      const ctx = chart.ctx || (chart.canvas && chart.canvas.getContext("2d"));
       const chartArea = chart.chartArea;
 
       if (!ctx || !chartArea) return;
@@ -198,8 +198,8 @@ export default function TopGames() {
         </h2>
 
         {/* Desktop Table */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full">
+        <div className="hidden md:block overflow-x-auto ">
+          <table className="w-full overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <thead>
               <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
                 <th className="text-left py-2 px-2 font-medium">#</th>
@@ -358,4 +358,3 @@ export default function TopGames() {
     </div>
   );
 }
-
