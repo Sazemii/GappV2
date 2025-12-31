@@ -199,7 +199,7 @@ export default function TopGames() {
 
         {/* Desktop Table */}
         <div className="hidden md:block overflow-x-auto ">
-          <table className="w-full overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <table className="w-full">
             <thead>
               <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
                 <th className="text-left py-2 px-2 font-medium">#</th>
@@ -211,7 +211,7 @@ export default function TopGames() {
                 <th className="text-right py-2 px-2 font-medium">Peak</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {displayedGames.map((game, index) => (
                 <tr
                   key={game.appid}
