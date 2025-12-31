@@ -209,7 +209,7 @@ export default function TrendingGames() {
         </h2>
 
         {/* Desktop Table */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block ">
           <table className="w-full">
             <thead>
               <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
@@ -224,7 +224,7 @@ export default function TrendingGames() {
                 </th>
               </tr>
             </thead>
-            <tbody className="overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <tbody className="">
               {displayedGames.map((game, index) => {
                 const changeData = formatChange(
                   game.change,

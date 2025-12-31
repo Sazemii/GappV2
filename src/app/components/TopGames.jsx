@@ -198,7 +198,7 @@ export default function TopGames() {
         </h2>
 
         {/* Desktop Table */}
-        <div className="hidden md:block overflow-x-auto ">
+        <div className="hidden md:block ">
           <table className="w-full">
             <thead>
               <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
@@ -211,7 +211,7 @@ export default function TopGames() {
                 <th className="text-right py-2 px-2 font-medium">Peak</th>
               </tr>
             </thead>
-            <tbody className="overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <tbody className="">
               {displayedGames.map((game, index) => (
                 <tr
                   key={game.appid}
