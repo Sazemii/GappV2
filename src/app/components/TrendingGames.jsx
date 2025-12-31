@@ -69,7 +69,7 @@ function MiniLineChart({ data, maxValue }) {
     if (!chart) return;
 
     const updateGradient = () => {
-      const ctx = chart.ctx || (chart.canvas && chart.canvas.getContext('2d'));
+      const ctx = chart.ctx || (chart.canvas && chart.canvas.getContext("2d"));
       const chartArea = chart.chartArea;
 
       if (!ctx || !chartArea) return;
@@ -209,7 +209,7 @@ export default function TrendingGames() {
         </h2>
 
         {/* Desktop Table */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <table className="w-full">
             <thead>
               <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
@@ -219,12 +219,17 @@ export default function TrendingGames() {
                 <th className="text-left py-2 px-2 font-medium w-24">
                   Last 48h
                 </th>
-                <th className="text-left py-2 font-medium text-[11px]">24h Change</th>
+                <th className="text-left py-2 font-medium text-[11px]">
+                  24h Change
+                </th>
               </tr>
             </thead>
             <tbody>
               {displayedGames.map((game, index) => {
-                const changeData = formatChange(game.change, game.changePercent);
+                const changeData = formatChange(
+                  game.change,
+                  game.changePercent
+                );
                 return (
                   <tr
                     key={game.appid}
@@ -335,7 +340,9 @@ export default function TrendingGames() {
                 </div>
 
                 <div>
-                  <p className="text-[#A1A1A1] text-[10px] mb-1">Last 48 Hours</p>
+                  <p className="text-[#A1A1A1] text-[10px] mb-1">
+                    Last 48 Hours
+                  </p>
                   {game.last48Hours && game.last48Hours.length > 0 ? (
                     <MiniLineChart
                       key={`${game.appid}-${showAll}`}
@@ -400,4 +407,3 @@ export default function TrendingGames() {
     </div>
   );
 }
-
