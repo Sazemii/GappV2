@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const RAWG_API_KEY = NEXT_PUBLIC_RAWG_API;
+const RAWG_API_KEY = process.env.NEXT_PUBLIC_RAWG_API;
 
 export async function GET(request, context) {
   try {
