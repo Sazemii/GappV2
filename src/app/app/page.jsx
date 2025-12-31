@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import TopGames from "../components/TopGames";
+import TrendingGames from "../components/TrendingGames";
 
 export default function AppPage() {
   const [activeNav, setActiveNav] = useState("Home");
@@ -109,8 +110,16 @@ export default function AppPage() {
 
       {/* Hero Section */}
       <section className="w-full mt-8 sm:mt-14">
-        {/* Top Games Section */}
-        <TopGames />
+        {/* Stats Cards - Side by Side */}
+        <div className="w-full max-w-6xl mx-auto px-4 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+            {/* Left: TopGames */}
+            <TopGames />
+            
+            {/* Right: TrendingGames */}
+            <TrendingGames />
+          </div>
+        </div>
 
         {/* Space for future game cards section */}
         {/* The RAWG API game cards will be added below this */}
