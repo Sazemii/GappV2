@@ -161,11 +161,17 @@ export default function GameDetailPage({ params }) {
             {/* Quick Stats */}
             <div className="flex flex-wrap items-center gap-4 mb-10">
               {gameDetails.rating > 0 && (
-                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
                   <Star
-                    className={`w-6 h-6 ${getRatingColor(gameDetails.rating)} fill-current`}
+                    className={`w-6 h-6 ${getRatingColor(
+                      gameDetails.rating
+                    )} fill-current`}
                   />
-                  <span className={`font-bold text-xl ${getRatingColor(gameDetails.rating)}`}>
+                  <span
+                    className={`font-bold text-xl ${getRatingColor(
+                      gameDetails.rating
+                    )}`}
+                  >
                     {gameDetails.rating.toFixed(1)}
                   </span>
                   <span className="text-white/40 text-sm">/ 5</span>
@@ -174,9 +180,13 @@ export default function GameDetailPage({ params }) {
 
               {gameDetails.metacritic && (
                 <div
-                  className={`px-5 py-3 rounded-2xl border backdrop-blur-md ${getMetacriticColor(gameDetails.metacritic)}`}
+                  className={`px-5 py-3 rounded-2xl border backdrop-blur-md ${getMetacriticColor(
+                    gameDetails.metacritic
+                  )}`}
                 >
-                  <span className="font-bold text-xl">{gameDetails.metacritic}</span>
+                  <span className="font-bold text-xl">
+                    {gameDetails.metacritic}
+                  </span>
                   <span className="text-white/40 text-sm ml-2">Metacritic</span>
                 </div>
               )}
@@ -184,14 +194,18 @@ export default function GameDetailPage({ params }) {
               {gameDetails.playtime > 0 && (
                 <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-white/80">
                   <Clock className="w-5 h-5" />
-                  <span className="font-medium">{gameDetails.playtime}h avg playtime</span>
+                  <span className="font-medium">
+                    {gameDetails.playtime}h avg playtime
+                  </span>
                 </div>
               )}
 
               {gameDetails.released && (
                 <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-white/80">
                   <Calendar className="w-5 h-5" />
-                  <span className="font-medium">{formatDate(gameDetails.released)}</span>
+                  <span className="font-medium">
+                    {formatDate(gameDetails.released)}
+                  </span>
                 </div>
               )}
             </div>
@@ -268,7 +282,7 @@ export default function GameDetailPage({ params }) {
           {/* Info Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Details Card */}
-            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 space-y-6 border border-white/10">
+            <div className="bg-white/5 rounded-3xl p-8 space-y-6 border border-white/10">
               <h3 className="text-white font-semibold text-xl">Game Details</h3>
 
               {gameDetails.developers && gameDetails.developers.length > 0 && (
@@ -277,7 +291,9 @@ export default function GameDetailPage({ params }) {
                     <Building2 className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Developer</p>
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
+                      Developer
+                    </p>
                     <p className="text-white font-medium">
                       {gameDetails.developers.map((d) => d.name).join(", ")}
                     </p>
@@ -291,7 +307,9 @@ export default function GameDetailPage({ params }) {
                     <Building2 className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Publisher</p>
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
+                      Publisher
+                    </p>
                     <p className="text-white font-medium">
                       {gameDetails.publishers.map((p) => p.name).join(", ")}
                     </p>
@@ -305,8 +323,12 @@ export default function GameDetailPage({ params }) {
                     <Users className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Added by</p>
-                    <p className="text-white font-medium">{gameDetails.added.toLocaleString()} users</p>
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
+                      Added by
+                    </p>
+                    <p className="text-white font-medium">
+                      {gameDetails.added.toLocaleString()} users
+                    </p>
                   </div>
                 </div>
               )}
@@ -317,8 +339,12 @@ export default function GameDetailPage({ params }) {
                     <Trophy className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Achievements</p>
-                    <p className="text-white font-medium">{gameDetails.achievements_count}</p>
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
+                      Achievements
+                    </p>
+                    <p className="text-white font-medium">
+                      {gameDetails.achievements_count}
+                    </p>
                   </div>
                 </div>
               )}
@@ -340,7 +366,7 @@ export default function GameDetailPage({ params }) {
             <div className="space-y-8">
               {/* Platforms */}
               {gameDetails.platforms && gameDetails.platforms.length > 0 && (
-                <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
+                <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
                   <h3 className="text-white font-semibold text-xl mb-6 flex items-center gap-3">
                     <Monitor className="w-6 h-6 text-purple-400" />
                     Available On
@@ -360,8 +386,10 @@ export default function GameDetailPage({ params }) {
 
               {/* Tags */}
               {gameDetails.tags && gameDetails.tags.length > 0 && (
-                <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
-                  <h3 className="text-white font-semibold text-xl mb-6">Tags</h3>
+                <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
+                  <h3 className="text-white font-semibold text-xl mb-6">
+                    Tags
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {gameDetails.tags.slice(0, 15).map((tag) => (
                       <span
@@ -377,7 +405,7 @@ export default function GameDetailPage({ params }) {
 
               {/* Rating Breakdown */}
               {gameDetails.ratings && gameDetails.ratings.length > 0 && (
-                <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
+                <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
                   <h3 className="text-white font-semibold text-xl mb-6 flex items-center gap-3">
                     <Star className="w-6 h-6 text-purple-400" />
                     Ratings
@@ -391,7 +419,9 @@ export default function GameDetailPage({ params }) {
                         <p className="text-2xl font-bold text-white mb-1">
                           {rating.percent.toFixed(0)}%
                         </p>
-                        <p className="text-sm text-white/50 capitalize">{rating.title}</p>
+                        <p className="text-sm text-white/50 capitalize">
+                          {rating.title}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -404,4 +434,3 @@ export default function GameDetailPage({ params }) {
     </div>
   );
 }
-

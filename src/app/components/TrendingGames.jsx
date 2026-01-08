@@ -177,11 +177,26 @@ function formatChange(change, changePercent) {
   };
 }
 
-export default function TrendingGames() {
+export default function TrendingGames({
+  showAll: controlledShowAll,
+  onToggle,
+  hideButton = false,
+}) {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showAll, setShowAll] = useState(false);
+  const [internalShowAll, setInternalShowAll] = useState(false);
+
+  // Use controlled or internal state
+  const isControlled = controlledShowAll !== undefined;
+  const showAll = isControlled ? controlledShowAll : internalShowAll;
+  const toggleShowAll = () => {
+    if (isControlled && onToggle) {
+      onToggle();
+    } else {
+      setInternalShowAll(!internalShowAll);
+    }
+  };
 
   useEffect(() => {
     async function fetchGames() {
@@ -406,10 +421,10 @@ export default function TrendingGames() {
         </div>
 
         {/* Show More / Show Less */}
-        {games.length > 3 && (
+        {games.length > 3 && !hideButton && (
           <div className="mt-3 flex justify-center">
             <button
-              onClick={() => setShowAll(!showAll)}
+              onClick={toggleShowAll}
               className="flex items-center gap-2 text-[#A1A1A1] hover:text-white transition-colors text-xs font-['Inter'] px-3 py-1.5 rounded-lg bg-[#252525] hover:bg-[#2A2A2A]"
             >
               {showAll ? (

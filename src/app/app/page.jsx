@@ -6,11 +6,26 @@ import {
   X,
   Loader2,
   ChevronDown,
+  ChevronUp,
   Gamepad2,
   SlidersHorizontal,
   Search,
+  Star,
+  Clock,
+  TrendingUp,
+  Award,
+  SortAsc,
+  Swords,
+  Target,
+  Crosshair,
+  Zap,
+  Ghost,
+  Puzzle,
+  Car,
+  Monitor,
 } from "lucide-react";
 import Image from "next/image";
+import GameCharts from "../components/GameCharts";
 import TopGames from "../components/TopGames";
 import TrendingGames from "../components/TrendingGames";
 import GameCard from "../components/GameCard";
@@ -24,6 +39,9 @@ export default function AppPage() {
   const [searchValue, setSearchValue] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [genreExpanded, setGenreExpanded] = useState(false);
+  const [platformExpanded, setPlatformExpanded] = useState(false);
+  const [chartsExpanded, setChartsExpanded] = useState(false);
 
   // Game search state
   const [games, setGames] = useState([]);
@@ -146,7 +164,7 @@ export default function AppPage() {
           ))}
         </div>
 
-        {/* Search Bar - Used for RAWG search */}
+        {/* Search Bar */}
         <div className="bg-[#252525] rounded-[10px] px-2 py-1 flex items-center gap-2 w-[140px] sm:w-[180px] lg:w-[200px]">
           <Image
             src="/_Magnifyingglass.svg"
@@ -221,129 +239,258 @@ export default function AppPage() {
       {/* Main Content Area */}
       <section className="w-full mt-8 sm:mt-14">
         {activeNav === "Home" ? (
-          <div className="flex gap-6 max-w-7xl mx-auto px-4">
+          <div className="flex gap-8 max-w-[1400px] mx-auto px-4">
             {/* Left Sidebar*/}
-            <aside className="hidden lg:block w-56 flex-shrink-0">
-              <div className="sticky top-5 space-y-3">
-                {/* Sort Dropdown */}
-                <div className="bg-[#1a1a1a]/80 backdrop-blur-sm rounded-2xl border border-[#252525] overflow-hidden">
-                  <div className="p-4 border-b border-[#252525]">
-                    <h3 className="text-white/90 text-xs font-semibold uppercase tracking-wider">
-                      Sort By
-                    </h3>
-                  </div>
-                  <div className="p-2">
+            <aside className="hidden lg:block w-64 flex-shrink-0">
+              <div className="sticky top-5 space-y-7">
+                {/* Sort By Section */}
+                <div>
+                  <h3 className="text-sm uppercase tracking-wider text-[#f0f0f0] text-[1.12rem] font-bold mb-3">
+                    Sort By
+                  </h3>
+                  <div className="space-y-1">
                     {[
-                      { value: "-rating", label: "Rating ↓" },
-                      { value: "-released", label: "Newest" },
-                      { value: "-added", label: "Popular" },
-                      { value: "-metacritic", label: "Metacritic" },
-                      { value: "name", label: "A-Z" },
+                      {
+                        value: "-rating",
+                        label: "Rating",
+                        sublabel: "High to Low",
+                        icon: Star,
+                      },
+                      {
+                        value: "-released",
+                        label: "Release Date",
+                        sublabel: "Newest",
+                        icon: Clock,
+                      },
+                      {
+                        value: "-added",
+                        label: "Popularity",
+                        sublabel: "Most Added",
+                        icon: TrendingUp,
+                      },
+                      {
+                        value: "-metacritic",
+                        label: "Metacritic",
+                        sublabel: "High to Low",
+                        icon: Award,
+                      },
+                      {
+                        value: "name",
+                        label: "Name",
+                        sublabel: "A-Z",
+                        icon: SortAsc,
+                      },
                     ].map((option) => (
                       <button
                         key={option.value}
                         onClick={() => setSortBy(option.value)}
-                        className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-all ${
-                          sortBy === option.value
-                            ? "bg-purple-500/20 text-purple-300"
-                            : "text-white/60 hover:bg-white/5 hover:text-white"
+                        className={`group flex items-center gap-3 py-2 transition-all duration-200 w-full ${
+                          sortBy === option.value ? "text-white" : "text-[#888]"
                         }`}
                       >
-                        {option.label}
+                        <span
+                          className={`flex items-center justify-center w-7 h-7 rounded transition-all duration-200 ${
+                            sortBy === option.value
+                              ? "bg-white text-black"
+                              : "bg-[#333] text-white group-hover:bg-white group-hover:text-black"
+                          }`}
+                        >
+                          <option.icon className="w-4 h-4" />
+                        </span>
+                        <span
+                          className={`text-[15px] transition-all duration-200 ${
+                            sortBy === option.value
+                              ? "font-medium scale-105 origin-left"
+                              : "group-hover:scale-105 group-hover:text-white origin-left"
+                          }`}
+                        >
+                          {option.label}
+                          <span className="text-[#666] ml-1">
+                            ({option.sublabel})
+                          </span>
+                        </span>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Genres */}
-                <div className="bg-[#1a1a1a]/80 backdrop-blur-sm rounded-2xl border border-[#252525] overflow-hidden">
-                  <div className="p-4 border-b border-[#252525] flex items-center justify-between">
-                    <h3 className="text-white/90 text-xs font-semibold uppercase tracking-wider">
-                      Genres
-                    </h3>
+                {/* Genres Section */}
+                <div>
+                  <h3 className="text-xs uppercase tracking-wider text-[#f0f0f0] text-[1.12rem] font-bold mb-3">
+                    Genres
                     {filters.genres.length > 0 && (
-                      <span className="text-[10px] bg-purple-500/30 text-purple-300 px-2 py-0.5 rounded-full">
+                      <span className="ml-2 text-white">
                         {filters.genres.length}
                       </span>
                     )}
-                  </div>
-                  <div className="p-2 max-h-48 overflow-y-auto custom-scrollbar">
-                    {[
-                      { id: 4, name: "Action" },
-                      { id: 51, name: "Indie" },
-                      { id: 3, name: "Adventure" },
-                      { id: 5, name: "RPG" },
-                      { id: 10, name: "Strategy" },
-                      { id: 2, name: "Shooter" },
-                      { id: 7, name: "Puzzle" },
-                      { id: 11, name: "Arcade" },
-                      { id: 83, name: "Platformer" },
-                      { id: 1, name: "Racing" },
-                    ].map((genre) => (
-                      <button
-                        key={genre.id}
-                        onClick={() => {
-                          setFilters((prev) => ({
-                            ...prev,
-                            genres: prev.genres.includes(genre.id)
-                              ? prev.genres.filter((id) => id !== genre.id)
-                              : [...prev.genres, genre.id],
-                          }));
-                        }}
-                        className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-all ${
-                          filters.genres.includes(genre.id)
-                            ? "bg-purple-500/20 text-purple-300"
-                            : "text-white/60 hover:bg-white/5 hover:text-white"
-                        }`}
-                      >
-                        {genre.name}
-                      </button>
-                    ))}
+                  </h3>
+                  <div className="space-y-1">
+                    {(() => {
+                      const allGenres = [
+                        { id: 4, name: "Action", icon: Swords },
+                        { id: 10, name: "Strategy", icon: Target },
+                        { id: 2, name: "Shooter", icon: Crosshair },
+                        { id: 51, name: "Indie", icon: Star },
+                        { id: 3, name: "Adventure", icon: Zap },
+                        { id: 5, name: "RPG", icon: Ghost },
+                        { id: 7, name: "Puzzle", icon: Puzzle },
+                        { id: 11, name: "Arcade", icon: Gamepad2 },
+                        { id: 83, name: "Platformer", icon: Gamepad2 },
+                        { id: 1, name: "Racing", icon: Car },
+                      ];
+                      const visibleGenres = genreExpanded
+                        ? allGenres
+                        : allGenres.slice(0, 3);
+                      return (
+                        <>
+                          {visibleGenres.map((genre) => (
+                            <button
+                              key={genre.id}
+                              onClick={() => {
+                                setFilters((prev) => ({
+                                  ...prev,
+                                  genres: prev.genres.includes(genre.id)
+                                    ? prev.genres.filter(
+                                        (id) => id !== genre.id
+                                      )
+                                    : [...prev.genres, genre.id],
+                                }));
+                              }}
+                              className={`group flex items-center gap-3 py-2 transition-all duration-200 w-full ${
+                                filters.genres.includes(genre.id)
+                                  ? "text-white"
+                                  : "text-[#888]"
+                              }`}
+                            >
+                              <span
+                                className={`flex items-center justify-center w-7 h-7 rounded transition-all duration-200 ${
+                                  filters.genres.includes(genre.id)
+                                    ? "bg-white text-black"
+                                    : "bg-[#333] text-white group-hover:bg-white group-hover:text-black"
+                                }`}
+                              >
+                                <genre.icon className="w-4 h-4" />
+                              </span>
+                              <span
+                                className={`text-[15px] transition-all duration-200 ${
+                                  filters.genres.includes(genre.id)
+                                    ? "font-medium scale-105 origin-left"
+                                    : "group-hover:scale-105 group-hover:text-white origin-left"
+                                }`}
+                              >
+                                {genre.name}
+                              </span>
+                            </button>
+                          ))}
+                          <button
+                            onClick={() => setGenreExpanded(!genreExpanded)}
+                            className="flex items-center gap-1.5 text-sm text-[#666] hover:text-white transition-colors mt-2"
+                          >
+                            {genreExpanded ? (
+                              <>
+                                <ChevronUp className="w-3.5 h-3.5" />
+                                Show less
+                              </>
+                            ) : (
+                              <>
+                                <ChevronDown className="w-3.5 h-3.5" />
+                                Show {allGenres.length - 3} more
+                              </>
+                            )}
+                          </button>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
 
-                {/* Platforms */}
-                <div className="bg-[#1a1a1a]/80 backdrop-blur-sm rounded-2xl border border-[#252525] overflow-hidden">
-                  <div className="p-4 border-b border-[#252525] flex items-center justify-between">
-                    <h3 className="text-white/90 text-xs font-semibold uppercase tracking-wider">
-                      Platforms
-                    </h3>
+                {/* Platforms Section */}
+                <div>
+                  <h3 className="text-xs uppercase tracking-wider text-[#f0f0f0] text-[1.12rem] font-bold mb-3">
+                    Platforms
                     {filters.platforms.length > 0 && (
-                      <span className="text-[10px] bg-purple-500/30 text-purple-300 px-2 py-0.5 rounded-full">
+                      <span className="ml-2 text-white">
                         {filters.platforms.length}
                       </span>
                     )}
-                  </div>
-                  <div className="p-2">
-                    {[
-                      { id: 4, name: "PC" },
-                      { id: 187, name: "PlayStation 5" },
-                      { id: 18, name: "PlayStation 4" },
-                      { id: 186, name: "Xbox Series X" },
-                      { id: 1, name: "Xbox One" },
-                      { id: 7, name: "Nintendo Switch" },
-                    ].map((platform) => (
-                      <button
-                        key={platform.id}
-                        onClick={() => {
-                          setFilters((prev) => ({
-                            ...prev,
-                            platforms: prev.platforms.includes(platform.id)
-                              ? prev.platforms.filter(
-                                  (id) => id !== platform.id
-                                )
-                              : [...prev.platforms, platform.id],
-                          }));
-                        }}
-                        className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-all ${
-                          filters.platforms.includes(platform.id)
-                            ? "bg-purple-500/20 text-purple-300"
-                            : "text-white/60 hover:bg-white/5 hover:text-white"
-                        }`}
-                      >
-                        {platform.name}
-                      </button>
-                    ))}
+                  </h3>
+                  <div className="space-y-1">
+                    {(() => {
+                      const allPlatforms = [
+                        { id: 4, name: "PC", icon: Monitor },
+                        { id: 187, name: "PlayStation 5", icon: Gamepad2 },
+                        { id: 18, name: "PlayStation 4", icon: Gamepad2 },
+                        { id: 186, name: "Xbox Series X", icon: Gamepad2 },
+                        { id: 1, name: "Xbox One", icon: Gamepad2 },
+                        { id: 7, name: "Nintendo Switch", icon: Gamepad2 },
+                      ];
+                      const visiblePlatforms = platformExpanded
+                        ? allPlatforms
+                        : allPlatforms.slice(0, 2);
+                      return (
+                        <>
+                          {visiblePlatforms.map((platform) => (
+                            <button
+                              key={platform.id}
+                              onClick={() => {
+                                setFilters((prev) => ({
+                                  ...prev,
+                                  platforms: prev.platforms.includes(
+                                    platform.id
+                                  )
+                                    ? prev.platforms.filter(
+                                        (id) => id !== platform.id
+                                      )
+                                    : [...prev.platforms, platform.id],
+                                }));
+                              }}
+                              className={`group flex items-center gap-3 py-2 transition-all duration-200 w-full ${
+                                filters.platforms.includes(platform.id)
+                                  ? "text-white"
+                                  : "text-[#888]"
+                              }`}
+                            >
+                              <span
+                                className={`flex items-center justify-center w-7 h-7 rounded transition-all duration-200 ${
+                                  filters.platforms.includes(platform.id)
+                                    ? "bg-white text-black"
+                                    : "bg-[#333] text-white group-hover:bg-white group-hover:text-black"
+                                }`}
+                              >
+                                <platform.icon className="w-4 h-4" />
+                              </span>
+                              <span
+                                className={`text-[15px] transition-all duration-200 ${
+                                  filters.platforms.includes(platform.id)
+                                    ? "font-medium scale-105 origin-left"
+                                    : "group-hover:scale-105 group-hover:text-white origin-left"
+                                }`}
+                              >
+                                {platform.name}
+                              </span>
+                            </button>
+                          ))}
+                          <button
+                            onClick={() =>
+                              setPlatformExpanded(!platformExpanded)
+                            }
+                            className="flex items-center gap-1.5 text-sm text-[#666] hover:text-white transition-colors mt-2"
+                          >
+                            {platformExpanded ? (
+                              <>
+                                <ChevronUp className="w-3.5 h-3.5" />
+                                Show less
+                              </>
+                            ) : (
+                              <>
+                                <ChevronDown className="w-3.5 h-3.5" />
+                                Show {allPlatforms.length - 2} more
+                              </>
+                            )}
+                          </button>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
 
@@ -352,8 +499,9 @@ export default function AppPage() {
                   filters.platforms.length > 0) && (
                   <button
                     onClick={clearFilters}
-                    className="w-full text-xs text-white/50 hover:text-white py-2 transition-colors"
+                    className="flex items-center gap-2 text-[15px] text-[#777] hover:text-white transition-colors"
                   >
+                    <X className="w-4 h-4" />
                     Clear all filters
                   </button>
                 )}
@@ -403,9 +551,46 @@ export default function AppPage() {
             {/* Main Content */}
             <div className="flex-1 min-w-0">
               {/* Charts Section */}
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6 mb-10">
-                <TopGames />
-                <TrendingGames />
+              <div className="mb-8">
+                {/* Desktop: Two separate tables with shared button */}
+                <div className="hidden md:block">
+                  <div className="grid grid-cols-2 gap-4">
+                    <TopGames
+                      showAll={chartsExpanded}
+                      onToggle={() => setChartsExpanded(!chartsExpanded)}
+                      hideButton
+                    />
+                    <TrendingGames
+                      showAll={chartsExpanded}
+                      onToggle={() => setChartsExpanded(!chartsExpanded)}
+                      hideButton
+                    />
+                  </div>
+                  {/* Shared button in the middle */}
+                  <div className="flex justify-center mt-4">
+                    <button
+                      onClick={() => setChartsExpanded(!chartsExpanded)}
+                      className="flex items-center gap-2 text-[#A1A1A1] hover:text-white transition-all text-sm font-['Inter'] px-5 py-2 rounded-xl bg-[#1B1B1B] hover:bg-[#252525] border border-[#2A2A2A] hover:border-[#3A3A3A]"
+                    >
+                      {chartsExpanded ? (
+                        <>
+                          <ChevronUp className="w-4 h-4" />
+                          Show Less
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown className="w-4 h-4" />
+                          Show Top 10
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Mobile: GameCharts with separate buttons */}
+                <div className="md:hidden">
+                  <GameCharts />
+                </div>
               </div>
 
               {/* Games Section Header */}

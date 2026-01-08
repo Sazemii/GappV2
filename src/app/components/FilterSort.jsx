@@ -2,56 +2,124 @@
 
 import { useState } from "react";
 import {
-  SlidersHorizontal,
   ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
   Gamepad2,
   Calendar,
   Star,
   ChevronDown,
   ChevronUp,
   X,
+  TrendingUp,
+  Clock,
+  Users,
+  SortAsc,
+  Award,
+  Swords,
+  Target,
+  Crosshair,
+  Puzzle,
+  Car,
+  Dumbbell,
+  Ghost,
+  Zap,
+  Monitor,
+  Smartphone,
 } from "lucide-react";
 
 const genres = [
-  { id: 4, name: "Action" },
-  { id: 51, name: "Indie" },
-  { id: 3, name: "Adventure" },
-  { id: 5, name: "RPG" },
-  { id: 10, name: "Strategy" },
-  { id: 2, name: "Shooter" },
-  { id: 40, name: "Casual" },
-  { id: 14, name: "Simulation" },
-  { id: 7, name: "Puzzle" },
-  { id: 11, name: "Arcade" },
-  { id: 83, name: "Platformer" },
-  { id: 1, name: "Racing" },
-  { id: 15, name: "Sports" },
-  { id: 6, name: "Fighting" },
-  { id: 19, name: "Family" },
+  { id: 4, name: "Action", icon: Swords },
+  { id: 10, name: "Strategy", icon: Target },
+  { id: 2, name: "Shooter", icon: Crosshair },
+  { id: 51, name: "Indie", icon: Star },
+  { id: 3, name: "Adventure", icon: Zap },
+  { id: 5, name: "RPG", icon: Ghost },
+  { id: 40, name: "Casual", icon: Gamepad2 },
+  { id: 14, name: "Simulation", icon: Monitor },
+  { id: 7, name: "Puzzle", icon: Puzzle },
+  { id: 11, name: "Arcade", icon: Gamepad2 },
+  { id: 83, name: "Platformer", icon: Gamepad2 },
+  { id: 1, name: "Racing", icon: Car },
+  { id: 15, name: "Sports", icon: Dumbbell },
+  { id: 6, name: "Fighting", icon: Swords },
+  { id: 19, name: "Family", icon: Users },
 ];
 
 const platforms = [
-  { id: 4, name: "PC" },
-  { id: 18, name: "PlayStation 4" },
-  { id: 187, name: "PlayStation 5" },
-  { id: 1, name: "Xbox One" },
-  { id: 186, name: "Xbox Series S/X" },
-  { id: 7, name: "Nintendo Switch" },
-  { id: 3, name: "iOS" },
-  { id: 21, name: "Android" },
+  { id: 4, name: "PC", icon: Monitor },
+  { id: 187, name: "PlayStation 5", icon: Gamepad2 },
+  { id: 18, name: "PlayStation 4", icon: Gamepad2 },
+  { id: 186, name: "Xbox Series S/X", icon: Gamepad2 },
+  { id: 1, name: "Xbox One", icon: Gamepad2 },
+  { id: 7, name: "Nintendo Switch", icon: Gamepad2 },
+  { id: 3, name: "iOS", icon: Smartphone },
+  { id: 21, name: "Android", icon: Smartphone },
 ];
 
 const sortOptions = [
-  { value: "-rating", label: "Rating (High to Low)" },
-  { value: "rating", label: "Rating (Low to High)" },
-  { value: "-released", label: "Release Date (Newest)" },
-  { value: "released", label: "Release Date (Oldest)" },
-  { value: "-added", label: "Popularity (Most Added)" },
-  { value: "added", label: "Popularity (Least Added)" },
-  { value: "name", label: "Name (A-Z)" },
-  { value: "-name", label: "Name (Z-A)" },
-  { value: "-metacritic", label: "Metacritic (High to Low)" },
+  { value: "-rating", label: "Rating", sublabel: "High to Low", icon: Star },
+  { value: "rating", label: "Rating", sublabel: "Low to High", icon: Star },
+  {
+    value: "-released",
+    label: "Release Date",
+    sublabel: "Newest",
+    icon: Clock,
+  },
+  { value: "released", label: "Release Date", sublabel: "Oldest", icon: Clock },
+  {
+    value: "-added",
+    label: "Popularity",
+    sublabel: "Most Added",
+    icon: TrendingUp,
+  },
+  {
+    value: "added",
+    label: "Popularity",
+    sublabel: "Least Added",
+    icon: TrendingUp,
+  },
+  { value: "name", label: "Name", sublabel: "A-Z", icon: SortAsc },
+  { value: "-name", label: "Name", sublabel: "Z-A", icon: SortAsc },
+  {
+    value: "-metacritic",
+    label: "Metacritic",
+    sublabel: "High to Low",
+    icon: Award,
+  },
 ];
+
+// Reusable filter item component with hover effect
+function FilterItem({ icon: Icon, label, sublabel, isActive, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`group flex items-center gap-3 py-2 transition-all duration-200 ${
+        isActive ? "text-white" : "text-[#888]"
+      }`}
+    >
+      <span
+        className={`flex items-center justify-center w-7 h-7 rounded transition-all duration-200 ${
+          isActive
+            ? "bg-white text-black"
+            : "bg-[#333] text-white group-hover:bg-white group-hover:text-black"
+        }`}
+      >
+        <Icon className="w-4 h-4" />
+      </span>
+      <span
+        className={`text-[15px] transition-all duration-200 ${
+          isActive
+            ? "font-medium scale-105 origin-left"
+            : "group-hover:scale-105 group-hover:text-white origin-left"
+        }`}
+      >
+        {label}
+        {sublabel && <span className="text-[#666] ml-1">({sublabel})</span>}
+      </span>
+    </button>
+  );
+}
 
 export default function FilterSort({
   filters,
@@ -60,9 +128,16 @@ export default function FilterSort({
   setSortBy,
   onClearFilters,
 }) {
-  const [genreExpanded, setGenreExpanded] = useState(true);
-  const [platformExpanded, setPlatformExpanded] = useState(true);
-  const [sortExpanded, setSortExpanded] = useState(true);
+  const [genreExpanded, setGenreExpanded] = useState(false);
+  const [platformExpanded, setPlatformExpanded] = useState(false);
+
+  // Show first 3 genres initially
+  const initialGenres = genres.slice(0, 3);
+  const remainingGenres = genres.slice(3);
+
+  // Show first 2 platforms initially
+  const initialPlatforms = platforms.slice(0, 2);
+  const remainingPlatforms = platforms.slice(2);
 
   const hasActiveFilters =
     filters.genres.length > 0 ||
@@ -88,139 +163,134 @@ export default function FilterSort({
   };
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-white">
-          <SlidersHorizontal className="w-4 h-4 text-purple-400" />
-          <h3 className="font-semibold text-sm">Filters & Sort</h3>
-        </div>
-        {hasActiveFilters && (
-          <button
-            onClick={onClearFilters}
-            className="flex items-center gap-1 text-[11px] text-[#888] hover:text-white transition-colors bg-[#1a1a1a] px-2 py-1 rounded-lg"
-          >
-            <X className="w-3 h-3" />
-            Clear
-          </button>
-        )}
-      </div>
+    <div className="space-y-7">
+      {/* Clear Filters */}
+      {hasActiveFilters && (
+        <button
+          onClick={onClearFilters}
+          className="flex items-center gap-2 text-[15px] text-[#777] hover:text-white transition-colors"
+        >
+          <X className="w-4 h-4" />
+          Clear all filters
+        </button>
+      )}
 
       {/* Sort Section */}
-      <div className="border-t border-[#1f1f1f] pt-4">
-        <button
-          onClick={() => setSortExpanded(!sortExpanded)}
-          className="flex items-center justify-between w-full text-white mb-3"
-        >
-          <div className="flex items-center gap-2">
-            <ArrowUpDown className="w-4 h-4 text-purple-400" />
-            <span className="text-xs font-medium">Sort By</span>
-          </div>
-          {sortExpanded ? (
-            <ChevronUp className="w-4 h-4 text-[#888]" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-[#888]" />
-          )}
-        </button>
-        {sortExpanded && (
-          <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-            {sortOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => setSortBy(option.value)}
-                className={`w-full text-left text-[11px] px-3 py-2 rounded-lg transition-all ${
-                  sortBy === option.value
-                    ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
-                    : "text-[#888] hover:bg-[#1a1a1a] hover:text-white"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        )}
+      <div>
+        <h3 className="text-sm uppercase tracking-wider text-[#999] font-semibold mb-4">
+          Sort By
+        </h3>
+        <div className="space-y-1">
+          {sortOptions.map((option) => (
+            <FilterItem
+              key={option.value}
+              icon={option.icon}
+              label={option.label}
+              sublabel={option.sublabel}
+              isActive={sortBy === option.value}
+              onClick={() => setSortBy(option.value)}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Genre Section */}
-      <div className="border-t border-[#1f1f1f] pt-4">
-        <button
-          onClick={() => setGenreExpanded(!genreExpanded)}
-          className="flex items-center justify-between w-full text-white mb-3"
-        >
-          <div className="flex items-center gap-2">
-            <Gamepad2 className="w-4 h-4 text-purple-400" />
-            <span className="text-xs font-medium">Genres</span>
-            {filters.genres.length > 0 && (
-              <span className="bg-purple-500/20 text-purple-300 text-[10px] px-1.5 py-0.5 rounded-full">
-                {filters.genres.length}
-              </span>
-            )}
-          </div>
-          {genreExpanded ? (
-            <ChevronUp className="w-4 h-4 text-[#888]" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-[#888]" />
+      <div>
+        <h3 className="text-sm uppercase tracking-wider text-[#999] font-semibold mb-4">
+          Genres
+          {filters.genres.length > 0 && (
+            <span className="ml-2 text-white">{filters.genres.length}</span>
           )}
-        </button>
-        {genreExpanded && (
-          <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto custom-scrollbar">
-            {genres.map((genre) => (
-              <button
+        </h3>
+        <div className="space-y-1">
+          {initialGenres.map((genre) => (
+            <FilterItem
+              key={genre.id}
+              icon={genre.icon}
+              label={genre.name}
+              isActive={filters.genres.includes(genre.id)}
+              onClick={() => toggleGenre(genre.id)}
+            />
+          ))}
+
+          {genreExpanded &&
+            remainingGenres.map((genre) => (
+              <FilterItem
                 key={genre.id}
+                icon={genre.icon}
+                label={genre.name}
+                isActive={filters.genres.includes(genre.id)}
                 onClick={() => toggleGenre(genre.id)}
-                className={`text-[10px] px-2.5 py-1.5 rounded-lg transition-all ${
-                  filters.genres.includes(genre.id)
-                    ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
-                    : "bg-[#1a1a1a] text-[#888] hover:bg-[#222] hover:text-white border border-transparent"
-                }`}
-              >
-                {genre.name}
-              </button>
+              />
             ))}
-          </div>
-        )}
+
+          <button
+            onClick={() => setGenreExpanded(!genreExpanded)}
+            className="flex items-center gap-1.5 text-sm text-[#666] hover:text-white transition-colors mt-2"
+          >
+            {genreExpanded ? (
+              <>
+                <ChevronUp className="w-3.5 h-3.5" />
+                Show less
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-3.5 h-3.5" />
+                Show {remainingGenres.length} more
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Platform Section */}
-      <div className="border-t border-[#1f1f1f] pt-4">
-        <button
-          onClick={() => setPlatformExpanded(!platformExpanded)}
-          className="flex items-center justify-between w-full text-white mb-3"
-        >
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-purple-400" />
-            <span className="text-xs font-medium">Platforms</span>
-            {filters.platforms.length > 0 && (
-              <span className="bg-purple-500/20 text-purple-300 text-[10px] px-1.5 py-0.5 rounded-full">
-                {filters.platforms.length}
-              </span>
-            )}
-          </div>
-          {platformExpanded ? (
-            <ChevronUp className="w-4 h-4 text-[#888]" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-[#888]" />
+      <div>
+        <h3 className="text-sm uppercase tracking-wider text-[#999] font-semibold mb-4">
+          Platforms
+          {filters.platforms.length > 0 && (
+            <span className="ml-2 text-white">{filters.platforms.length}</span>
           )}
-        </button>
-        {platformExpanded && (
-          <div className="space-y-1 max-h-40 overflow-y-auto custom-scrollbar">
-            {platforms.map((platform) => (
-              <button
+        </h3>
+        <div className="space-y-1">
+          {initialPlatforms.map((platform) => (
+            <FilterItem
+              key={platform.id}
+              icon={platform.icon}
+              label={platform.name}
+              isActive={filters.platforms.includes(platform.id)}
+              onClick={() => togglePlatform(platform.id)}
+            />
+          ))}
+
+          {platformExpanded &&
+            remainingPlatforms.map((platform) => (
+              <FilterItem
                 key={platform.id}
+                icon={platform.icon}
+                label={platform.name}
+                isActive={filters.platforms.includes(platform.id)}
                 onClick={() => togglePlatform(platform.id)}
-                className={`w-full text-left text-[11px] px-3 py-2 rounded-lg transition-all ${
-                  filters.platforms.includes(platform.id)
-                    ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
-                    : "text-[#888] hover:bg-[#1a1a1a] hover:text-white"
-                }`}
-              >
-                {platform.name}
-              </button>
+              />
             ))}
-          </div>
-        )}
+
+          <button
+            onClick={() => setPlatformExpanded(!platformExpanded)}
+            className="flex items-center gap-1.5 text-sm text-[#666] hover:text-white transition-colors mt-2"
+          >
+            {platformExpanded ? (
+              <>
+                <ChevronUp className="w-3.5 h-3.5" />
+                Show less
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-3.5 h-3.5" />
+                Show {remainingPlatforms.length} more
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-
