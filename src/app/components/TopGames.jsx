@@ -22,12 +22,44 @@ ChartJS.register(
 );
 
 // Mini line chart component for the table cell
-function MiniLineChart({ data, maxValue }) {
+function MiniLineChart({ data }) {
   const chartRef = useRef(null);
+
+  // Calculate min and max from the data for relative scaling
+  const values = data.map((d) => d.value);
+  const minValue = Math.min(...values);
+  const maxValue = Math.max(...values);
+  const range = maxValue - minValue;
+
+  // Handle case when all values are the same (range = 0)
+  let yMin, yMax;
+  if (range === 0) {
+    // If all values are the same, create a range around that value
+    if (maxValue === 0) {
+      yMin = 0;
+      yMax = 1;
+    } else {
+      yMin = Math.max(0, maxValue * 0.9);
+      yMax = maxValue * 1.1;
+    }
+  } else {
+    // Add padding to prevent chart from touching edges (10% padding on top and bottom)
+    const padding = range * 0.1;
+    yMin = Math.max(0, minValue - padding);
+    yMax = maxValue + padding;
+  }
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 4,
+        bottom: 4,
+        left: 2,
+        right: 2,
+      },
+    },
     plugins: {
       legend: {
         display: false,
@@ -45,8 +77,8 @@ function MiniLineChart({ data, maxValue }) {
       },
       y: {
         display: false,
-        min: 0,
-        max: maxValue,
+        min: yMin,
+        max: yMax,
         grid: {
           display: false,
         },
@@ -54,7 +86,7 @@ function MiniLineChart({ data, maxValue }) {
     },
     elements: {
       line: {
-        borderWidth: 3,
+        borderWidth: 2,
         tension: 0.4,
       },
       point: {
@@ -158,10 +190,6 @@ export default function TopGames() {
   }, []);
 
   const displayedGames = showAll ? games.slice(0, 10) : games.slice(0, 3);
-  const maxLast48Hours = Math.max(
-    ...games.flatMap((g) => (g.last48Hours || []).map((d) => d.value)),
-    1
-  );
 
   if (loading) {
     return (
@@ -198,17 +226,40 @@ export default function TopGames() {
         </h2>
 
         {/* Desktop Table */}
-        <div className="hidden md:block ">
-          <table className="w-full">
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full table-fixed">
             <thead>
               <tr className="text-[#A1A1A1] text-xs font-['Inter'] border-b border-[#2A2A2A]">
-                <th className="text-left py-2 px-2 font-medium">#</th>
-                <th className="text-left py-2 px-2 font-medium">Name</th>
-                <th className="text-right py-2 px-2 font-medium">Current</th>
-                <th className="text-left py-2 px-2 font-medium w-24">
+                <th
+                  className="text-left py-2 px-2 font-medium"
+                  style={{ width: "3%" }}
+                >
+                  #
+                </th>
+                <th
+                  className="text-left py-2 px-2 font-medium"
+                  style={{ width: "40%" }}
+                >
+                  Name
+                </th>
+                <th
+                  className="text-right py-2 px-2 font-medium"
+                  style={{ width: "12%" }}
+                >
+                  Current
+                </th>
+                <th
+                  className="text-left py-2 px-2 font-medium"
+                  style={{ width: "28%" }}
+                >
                   Last 48h
                 </th>
-                <th className="text-right py-2 px-2 font-medium">Peak</th>
+                <th
+                  className="text-right py-2 px-2 font-medium"
+                  style={{ width: "17%" }}
+                >
+                  Peak
+                </th>
               </tr>
             </thead>
             <tbody className="">
@@ -240,7 +291,6 @@ export default function TopGames() {
                       <MiniLineChart
                         key={`${game.appid}-${showAll}`}
                         data={game.last48Hours}
-                        maxValue={maxLast48Hours}
                       />
                     ) : (
                       <div className="w-full h-12 bg-[#252525] rounded-lg"></div>
@@ -299,7 +349,6 @@ export default function TopGames() {
                   <MiniLineChart
                     key={`${game.appid}-${showAll}`}
                     data={game.last48Hours}
-                    maxValue={maxLast48Hours}
                   />
                 ) : (
                   <div className="w-full h-12 bg-[#252525] rounded-lg"></div>
