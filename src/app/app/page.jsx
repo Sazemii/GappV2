@@ -241,8 +241,8 @@ export default function AppPage() {
         {activeNav === "Home" ? (
           <div className="flex gap-8 max-w-[1400px] mx-auto px-4">
             {/* Left Sidebar*/}
-            <aside className="hidden lg:block w-64 flex-shrink-0">
-              <div className="sticky top-5 space-y-7">
+            <aside className="hidden lg:block w-64 flex-shrink-0 ">
+              <div className="sticky top-5 space-y-7 pl-[1rem]">
                 {/* Sort By Section */}
                 <div>
                   <h3 className="text-sm uppercase tracking-wider text-[#f0f0f0] text-[1.12rem] font-bold mb-3">
@@ -406,7 +406,7 @@ export default function AppPage() {
 
                 {/* Platforms Section */}
                 <div>
-                  <h3 className="text-xs uppercase tracking-wider text-[#f0f0f0] text-[1.12rem] font-bold mb-3">
+                  <h3 className="text-xs uppercase tracking-wider text-[#f0f0f0] text-[1.12rem] font-bold mb-3 ">
                     Platforms
                     {filters.platforms.length > 0 && (
                       <span className="ml-2 text-white">
