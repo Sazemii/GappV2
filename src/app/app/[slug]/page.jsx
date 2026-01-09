@@ -419,7 +419,7 @@ export default function GameDetailPage({ params }) {
                         <p className="text-2xl font-bold text-white mb-1">
                           {rating.percent.toFixed(0)}%
                         </p>
-                        <p className="text-sm text-white/50 capitalize">
+                        <p className="text-[0.8rem] sm:text-sm text-white/50 capitalize">
                           {rating.title}
                         </p>
                       </div>
