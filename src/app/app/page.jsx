@@ -28,6 +28,7 @@ import Image from "next/image";
 import GameCharts from "../components/GameCharts";
 import TopGames from "../components/TopGames";
 import TrendingGames from "../components/TrendingGames";
+import PeakRecords from "../components/PeakRecords";
 import GameCard from "../components/GameCard";
 import FilterSort from "../components/FilterSort";
 
@@ -42,6 +43,8 @@ export default function AppPage() {
   const [genreExpanded, setGenreExpanded] = useState(false);
   const [platformExpanded, setPlatformExpanded] = useState(false);
   const [chartsExpanded, setChartsExpanded] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   // Game search state
   const [games, setGames] = useState([]);
@@ -141,10 +144,36 @@ export default function AppPage() {
     router.push(`/app/${game.id}`);
   };
 
+  // Handle scroll for sticky header
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 10) {
+        setShowHeader(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setShowHeader(false);
+      } else {
+        // Scrolling up
+        setShowHeader(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
     <div className="min-h-screen bg-[#111111] flex flex-col items-center pt-5 pb-10">
       {/* Navigation Bar */}
-      <nav className="bg-[#1B1B1B] rounded-[30px] px-4 sm:px-6 py-2 flex items-center gap-4 sm:gap-8 lg:gap-12 h-fit mx-4 relative z-50">
+      <nav
+        className={`sticky top-5 bg-[#1B1B1B] rounded-[30px] px-4 sm:px-6 py-2 flex items-center gap-4 sm:gap-8 lg:gap-12 h-fit mx-4 z-50 transition-transform duration-300 ease-in-out ${
+          showHeader ? "translate-y-0" : "-translate-y-20"
+        }`}
+      >
         <span className="font-['ADLaM_Display'] text-[18px] sm:text-[22px] text-white font-normal">
           GAPP
         </span>
@@ -672,6 +701,22 @@ export default function AppPage() {
                   )}
                 </>
               )}
+            </div>
+          </div>
+        ) : activeNav === "Charts" ? (
+          <div className="w-full max-w-5xl mx-auto px-4">
+            <div className="mb-8">
+              <h1 className="font-['Inter'] text-3xl font-bold text-white mb-2">
+                Steam Charts
+              </h1>
+              <p className="text-[#A1A1A1] text-sm">
+                Real-time player statistics and all-time peak records
+              </p>
+            </div>
+            <div className="space-y-8">
+              <TopGames showAll={true} hideButton />
+              <TrendingGames showAll={true} hideButton />
+              <PeakRecords showAll={true} hideButton />
             </div>
           </div>
         ) : (
