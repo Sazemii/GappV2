@@ -414,12 +414,12 @@ export default function GameDetailPage({ params }) {
                     {gameDetails.ratings.map((rating) => (
                       <div
                         key={rating.id}
-                        className="bg-white/5 rounded-2xl p-5 text-center border border-white/5"
+                        className="bg-white/5 rounded-2xl py-5 px-1 text-center border border-white/5"
                       >
                         <p className="text-2xl font-bold text-white mb-1">
                           {rating.percent.toFixed(0)}%
                         </p>
-                        <p className="text-[0.8rem] sm:text-sm text-white/50 capitalize">
+                        <p className="text-[0.75rem] sm:text-sm text-white/50 capitalize">
                           {rating.title}
                         </p>
                       </div>
