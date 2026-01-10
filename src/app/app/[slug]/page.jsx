@@ -14,8 +14,9 @@ import {
   ChevronRight,
   Trophy,
   Building2,
-  Palette,
   Loader2,
+  Globe,
+  Palette,
 } from "lucide-react";
 
 export default function GameDetailPage({ params }) {
@@ -127,7 +128,7 @@ export default function GameDetailPage({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#111111] relative">
+    <div className="min-h-screen bg-[#0a0a0a] relative">
       {/* Full Screen Background Image */}
       <div className="fixed inset-0 z-0">
         <img
@@ -138,6 +139,8 @@ export default function GameDetailPage({ params }) {
         {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-[#0a0a0a]/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/60" />
+        {/* Extra fade to black at bottom for content area */}
+        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a] to-transparent" />
       </div>
 
       {/* Content */}
@@ -180,7 +183,7 @@ export default function GameDetailPage({ params }) {
 
               {gameDetails.metacritic && (
                 <div
-                  className={`px-5 py-3 rounded-2xl border backdrop-blur-md ${getMetacriticColor(
+                  className={`px-5 py-3 rounded-2xl border ${getMetacriticColor(
                     gameDetails.metacritic
                   )}`}
                 >
@@ -192,7 +195,7 @@ export default function GameDetailPage({ params }) {
               )}
 
               {gameDetails.playtime > 0 && (
-                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-white/80">
+                <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10 text-white/80">
                   <Clock className="w-5 h-5" />
                   <span className="font-medium">
                     {gameDetails.playtime}h avg playtime
@@ -201,7 +204,7 @@ export default function GameDetailPage({ params }) {
               )}
 
               {gameDetails.released && (
-                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-white/80">
+                <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10 text-white/80">
                   <Calendar className="w-5 h-5" />
                   <span className="font-medium">
                     {formatDate(gameDetails.released)}
@@ -216,7 +219,7 @@ export default function GameDetailPage({ params }) {
                 {gameDetails.genres.map((genre) => (
                   <span
                     key={genre.id}
-                    className="text-sm text-purple-300 bg-purple-500/15 backdrop-blur-md px-5 py-2.5 rounded-full border border-purple-500/25 font-medium"
+                    className="text-sm text-purple-300 bg-purple-500/15 px-5 py-2.5 rounded-full border border-purple-500/25 font-medium"
                   >
                     {genre.name}
                   </span>
@@ -240,142 +243,127 @@ export default function GameDetailPage({ params }) {
                 <Palette className="w-6 h-6 text-purple-400" />
                 Screenshots
               </h3>
-              <div className="relative rounded-3xl overflow-hidden bg-black/20 backdrop-blur-sm border border-white/5">
-                <img
-                  src={screenshots[currentScreenshot]?.image}
-                  alt={`Screenshot ${currentScreenshot + 1}`}
-                  className="w-full h-[300px] lg:h-[500px] object-cover"
-                />
+              <div className="relative group">
+                <div className="relative rounded-3xl overflow-hidden bg-black/20 border border-white/5">
+                  <img
+                    src={screenshots[currentScreenshot]?.image}
+                    alt={`Screenshot ${currentScreenshot + 1}`}
+                    className="w-full h-[300px] lg:h-[500px] object-cover"
+                  />
+
+                  {screenshots.length > 1 && (
+                    <>
+                      <button
+                        onClick={prevScreenshot}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10 opacity-0 group-hover:opacity-100"
+                      >
+                        <ChevronLeft className="w-6 h-6" />
+                      </button>
+                      <button
+                        onClick={nextScreenshot}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10 opacity-0 group-hover:opacity-100"
+                      >
+                        <ChevronRight className="w-6 h-6" />
+                      </button>
+
+                      {/* Dot indicators */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                        {screenshots.slice(0, 10).map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentScreenshot(idx)}
+                            className={`h-2 rounded-full transition-all ${
+                              idx === currentScreenshot
+                                ? "bg-purple-400 w-8"
+                                : "bg-white/30 w-2 hover:bg-white/50"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Thumbnail Strip */}
                 {screenshots.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevScreenshot}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-md p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10"
-                    >
-                      <ChevronLeft className="w-6 h-6" />
-                    </button>
-                    <button
-                      onClick={nextScreenshot}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-md p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10"
-                    >
-                      <ChevronRight className="w-6 h-6" />
-                    </button>
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                      {screenshots.slice(0, 10).map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setCurrentScreenshot(idx)}
-                          className={`h-2 rounded-full transition-all ${
-                            idx === currentScreenshot
-                              ? "bg-purple-400 w-8"
-                              : "bg-white/30 w-2 hover:bg-white/50"
-                          }`}
+                  <div className="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                    {screenshots.slice(0, 8).map((screenshot, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentScreenshot(idx)}
+                        className={`relative flex-shrink-0 rounded-lg overflow-hidden transition-all ${
+                          idx === currentScreenshot
+                            ? "ring-2 ring-purple-400 ring-offset-2 ring-offset-[#0a0a0a]"
+                            : "opacity-60 hover:opacity-100"
+                        }`}
+                      >
+                        <img
+                          src={screenshot.image}
+                          alt={`Thumbnail ${idx + 1}`}
+                          className="w-24 h-14 object-cover"
                         />
-                      ))}
-                    </div>
-                  </>
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
           )}
 
-          {/* Info Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Details Card */}
-            <div className="bg-white/5 rounded-3xl p-8 space-y-6 border border-white/10">
-              <h3 className="text-white font-semibold text-xl">Game Details</h3>
+          {/* Game Details Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Left Column - Main Info */}
+            <div className="lg:col-span-2 space-y-10">
+              {/* Ratings */}
+              {gameDetails.ratings && gameDetails.ratings.length > 0 && (
+                <div>
+                  <h3 className="text-white text-xl font-semibold mb-5">
+                    Ratings
+                  </h3>
+                  <div className="space-y-4">
+                    {gameDetails.ratings.map((rating) => {
+                      const colors = {
+                        exceptional: "bg-emerald-500",
+                        recommended: "bg-blue-500",
+                        meh: "bg-yellow-500",
+                        skip: "bg-red-500",
+                      };
+                      const barColor = colors[rating.title] || "bg-white/50";
 
-              {gameDetails.developers && gameDetails.developers.length > 0 && (
-                <div className="flex items-center gap-4">
-                  <div className="bg-purple-500/15 p-3 rounded-xl">
-                    <Building2 className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
-                      Developer
-                    </p>
-                    <p className="text-white font-medium">
-                      {gameDetails.developers.map((d) => d.name).join(", ")}
-                    </p>
+                      return (
+                        <div key={rating.id}>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-white/80 capitalize">
+                              {rating.title}
+                            </span>
+                            <span className="text-white/60">
+                              {rating.percent.toFixed(0)}%
+                            </span>
+                          </div>
+                          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${barColor}`}
+                              style={{ width: `${rating.percent}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
 
-              {gameDetails.publishers && gameDetails.publishers.length > 0 && (
-                <div className="flex items-center gap-4">
-                  <div className="bg-purple-500/15 p-3 rounded-xl">
-                    <Building2 className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
-                      Publisher
-                    </p>
-                    <p className="text-white font-medium">
-                      {gameDetails.publishers.map((p) => p.name).join(", ")}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {gameDetails.added > 0 && (
-                <div className="flex items-center gap-4">
-                  <div className="bg-purple-500/15 p-3 rounded-xl">
-                    <Users className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
-                      Added by
-                    </p>
-                    <p className="text-white font-medium">
-                      {gameDetails.added.toLocaleString()} users
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {gameDetails.achievements_count > 0 && (
-                <div className="flex items-center gap-4">
-                  <div className="bg-purple-500/15 p-3 rounded-xl">
-                    <Trophy className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-1">
-                      Achievements
-                    </p>
-                    <p className="text-white font-medium">
-                      {gameDetails.achievements_count}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {gameDetails.website && (
-                <a
-                  href={gameDetails.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-6 py-4 rounded-2xl transition-colors border border-purple-500/25 mt-4"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                  <span className="font-medium">Visit Official Website</span>
-                </a>
-              )}
-            </div>
-
-            {/* Right Column */}
-            <div className="space-y-8">
               {/* Platforms */}
               {gameDetails.platforms && gameDetails.platforms.length > 0 && (
-                <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
-                  <h3 className="text-white font-semibold text-xl mb-6 flex items-center gap-3">
-                    <Monitor className="w-6 h-6 text-purple-400" />
-                    Available On
+                <div>
+                  <h3 className="text-white text-xl font-semibold mb-5">
+                    Platforms
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     {gameDetails.platforms.map((p) => (
                       <span
                         key={p.platform.id}
-                        className="text-sm text-white/80 bg-white/5 px-5 py-2.5 rounded-xl border border-white/10"
+                        className="text-white/70 bg-white/5 px-4 py-2 rounded-lg"
                       >
                         {p.platform.name}
                       </span>
@@ -386,15 +374,15 @@ export default function GameDetailPage({ params }) {
 
               {/* Tags */}
               {gameDetails.tags && gameDetails.tags.length > 0 && (
-                <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
-                  <h3 className="text-white font-semibold text-xl mb-6">
+                <div>
+                  <h3 className="text-white text-xl font-semibold mb-5">
                     Tags
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {gameDetails.tags.slice(0, 15).map((tag) => (
                       <span
                         key={tag.id}
-                        className="text-xs text-white/50 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5"
+                        className="text-sm text-white/50 bg-white/5 px-3 py-1.5 rounded-lg"
                       >
                         {tag.name}
                       </span>
@@ -402,30 +390,96 @@ export default function GameDetailPage({ params }) {
                   </div>
                 </div>
               )}
+            </div>
 
-              {/* Rating Breakdown */}
-              {gameDetails.ratings && gameDetails.ratings.length > 0 && (
-                <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
-                  <h3 className="text-white font-semibold text-xl mb-6 flex items-center gap-3">
-                    <Star className="w-6 h-6 text-purple-400" />
-                    Ratings
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {gameDetails.ratings.map((rating) => (
-                      <div
-                        key={rating.id}
-                        className="bg-white/5 rounded-2xl py-5 px-1 text-center border border-white/5"
-                      >
-                        <p className="text-2xl font-bold text-white mb-1">
-                          {rating.percent.toFixed(0)}%
+            {/* Right Column - Sidebar */}
+            <div className="space-y-8">
+              {/* Info Card */}
+              <div className="bg-white/5 rounded-xl p-6 space-y-5">
+                {gameDetails.developers &&
+                  gameDetails.developers.length > 0 && (
+                    <div className="flex items-start gap-4">
+                      <Building2 className="w-5 h-5 text-white/40 mt-0.5" />
+                      <div>
+                        <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                          Developer
                         </p>
-                        <p className="text-[0.75rem] sm:text-sm text-white/50 capitalize">
-                          {rating.title}
+                        <p className="text-white">
+                          {gameDetails.developers.map((d) => d.name).join(", ")}
                         </p>
                       </div>
-                    ))}
+                    </div>
+                  )}
+
+                {gameDetails.publishers &&
+                  gameDetails.publishers.length > 0 && (
+                    <div className="flex items-start gap-4">
+                      <Globe className="w-5 h-5 text-white/40 mt-0.5" />
+                      <div>
+                        <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                          Publisher
+                        </p>
+                        <p className="text-white">
+                          {gameDetails.publishers.map((p) => p.name).join(", ")}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                {gameDetails.released && (
+                  <div className="flex items-start gap-4">
+                    <Calendar className="w-5 h-5 text-white/40 mt-0.5" />
+                    <div>
+                      <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                        Release Date
+                      </p>
+                      <p className="text-white">
+                        {formatDate(gameDetails.released)}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {gameDetails.added > 0 && (
+                  <div className="flex items-start gap-4">
+                    <Users className="w-5 h-5 text-white/40 mt-0.5" />
+                    <div>
+                      <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                        Added by
+                      </p>
+                      <p className="text-white">
+                        {gameDetails.added.toLocaleString()} players
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {gameDetails.achievements_count > 0 && (
+                  <div className="flex items-start gap-4">
+                    <Trophy className="w-5 h-5 text-white/40 mt-0.5" />
+                    <div>
+                      <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                        Achievements
+                      </p>
+                      <p className="text-white">
+                        {gameDetails.achievements_count}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Website Button */}
+              {gameDetails.website && (
+                <a
+                  href={gameDetails.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/15 text-white py-3 rounded-lg transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Official Website</span>
+                </a>
               )}
             </div>
           </div>

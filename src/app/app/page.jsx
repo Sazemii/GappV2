@@ -76,6 +76,7 @@ export default function AppPage() {
       setPage(1);
       setGames([]);
       setHasMore(true);
+      // fetch games has useCallback which avoids infinite loops
       fetchGames(1, true);
     }
   }, [debouncedQuery, filters, sortBy, activeNav]);
