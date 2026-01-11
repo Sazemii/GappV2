@@ -102,7 +102,7 @@ export default function GameDetail({ game, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-8"
       onClick={onClose}
     >
       {/* Backdrop */}
@@ -123,7 +123,7 @@ export default function GameDetail({ game, onClose }) {
 
         <div className="overflow-y-auto max-h-[90vh] custom-scrollbar">
           {/* Hero Section */}
-          <div className="relative h-72 md:h-96">
+          <div className="relative h-36 sm:h-56 md:h-80 lg:h-96">
             {/* Background Image */}
             <img
               src={details.background_image || "/placeholder-game.jpg"}
@@ -135,42 +135,44 @@ export default function GameDetail({ game, onClose }) {
             <div className="absolute inset-0 bg-gradient-to-r from-[#0f0f0f]/80 via-transparent to-[#0f0f0f]/80" />
 
             {/* Title and Quick Info */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-              <h1 className="text-2xl md:text-4xl font-bold text-white mb-3 drop-shadow-lg">
+            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6 lg:p-8">
+              <h1 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-white mb-1.5 sm:mb-2 md:mb-3 drop-shadow-lg line-clamp-2">
                 {details.name}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 md:gap-3">
                 {/* Rating */}
                 {details.rating > 0 && (
-                  <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-lg">
+                  <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1.5 rounded-md sm:rounded-lg">
                     <Star
-                      className={`w-4 h-4 ${getRatingColor(
+                      className={`w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 ${getRatingColor(
                         details.rating
                       )} fill-current`}
                     />
                     <span
-                      className={`font-semibold ${getRatingColor(
+                      className={`font-semibold text-[10px] sm:text-xs md:text-sm ${getRatingColor(
                         details.rating
                       )}`}
                     >
                       {details.rating.toFixed(1)}
                     </span>
-                    <span className="text-white/50 text-sm">/ 5</span>
+                    <span className="text-white/50 text-[9px] sm:text-[10px] md:text-xs">
+                      / 5
+                    </span>
                   </div>
                 )}
 
                 {/* Metacritic */}
                 {details.metacritic && (
                   <div
-                    className={`px-3 py-1.5 rounded-lg border ${getMetacriticColor(
+                    className={`px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1.5 rounded-md sm:rounded-lg border ${getMetacriticColor(
                       details.metacritic
                     )}`}
                   >
-                    <span className="font-semibold text-sm">
+                    <span className="font-semibold text-[10px] sm:text-xs md:text-sm">
                       {details.metacritic}
                     </span>
-                    <span className="text-white/50 text-xs ml-1">
+                    <span className="text-white/50 text-[9px] sm:text-[10px] md:text-xs ml-0.5 sm:ml-1 hidden sm:inline">
                       Metacritic
                     </span>
                   </div>
@@ -178,9 +180,11 @@ export default function GameDetail({ game, onClose }) {
 
                 {/* Playtime */}
                 {details.playtime > 0 && (
-                  <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-lg text-white/70">
-                    <Clock className="w-4 h-4" />
-                    <span className="text-sm">{details.playtime}h avg</span>
+                  <div className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1.5 rounded-md sm:rounded-lg text-white/70">
+                    <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4" />
+                    <span className="text-[10px] sm:text-xs md:text-sm">
+                      {details.playtime}h
+                    </span>
                   </div>
                 )}
               </div>
@@ -188,24 +192,24 @@ export default function GameDetail({ game, onClose }) {
           </div>
 
           {/* Content */}
-          <div className="p-6 md:p-8 space-y-8">
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 space-y-4 sm:space-y-5 md:space-y-8">
             {/* Screenshots Gallery */}
             {screenshots.length > 0 && (
               <div className="relative">
-                <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-                    <Palette className="w-4 h-4 text-purple-400" />
+                <h3 className="text-white font-semibold mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
+                  <div className="p-0.5 sm:p-1 md:p-1.5 rounded-md sm:rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+                    <Palette className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-purple-400" />
                   </div>
                   <span>Screenshots</span>
-                  <span className="text-xs text-white/40 font-normal ml-auto">
+                  <span className="text-[9px] sm:text-[10px] md:text-xs text-white/40 font-normal ml-auto">
                     {currentScreenshot + 1} / {screenshots.length}
                   </span>
                 </h3>
-                <div className="relative group rounded-xl overflow-hidden border border-white/10">
+                <div className="relative group rounded-lg sm:rounded-xl overflow-hidden border border-white/10">
                   <img
                     src={screenshots[currentScreenshot]?.image}
                     alt={`Screenshot ${currentScreenshot + 1}`}
-                    className="w-full h-48 md:h-72 object-cover transition-transform duration-300"
+                    className="w-full h-32 sm:h-44 md:h-64 lg:h-72 object-cover transition-transform duration-300"
                   />
                   {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -267,27 +271,29 @@ export default function GameDetail({ game, onClose }) {
             )}
 
             {/* Stats Cards Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3">
               {details.rating > 0 && (
-                <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 border border-white/10 hover:border-yellow-500/30 transition-all">
+                <div className="group relative overflow-hidden rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-2 sm:p-3 md:p-4 border border-white/10 hover:border-yellow-500/30 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative">
                     <Star
-                      className={`w-4 h-4 mb-2 ${getRatingColor(
+                      className={`w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 mb-0.5 sm:mb-1 md:mb-2 ${getRatingColor(
                         details.rating
                       )} fill-current`}
                     />
                     <div className="flex items-baseline gap-0.5">
                       <span
-                        className={`text-xl font-bold ${getRatingColor(
+                        className={`text-sm sm:text-base md:text-xl font-bold ${getRatingColor(
                           details.rating
                         )}`}
                       >
                         {details.rating.toFixed(1)}
                       </span>
-                      <span className="text-white/40 text-xs">/5</span>
+                      <span className="text-white/40 text-[8px] sm:text-[10px] md:text-xs">
+                        /5
+                      </span>
                     </div>
-                    <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">
+                    <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wider mt-0.5">
                       Rating
                     </p>
                   </div>
@@ -295,12 +301,12 @@ export default function GameDetail({ game, onClose }) {
               )}
 
               {details.metacritic && (
-                <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 border border-white/10 hover:border-emerald-500/30 transition-all">
+                <div className="group relative overflow-hidden rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-2 sm:p-3 md:p-4 border border-white/10 hover:border-emerald-500/30 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative">
-                    <TrendingUp className="w-4 h-4 mb-2 text-emerald-400" />
+                    <TrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 mb-0.5 sm:mb-1 md:mb-2 text-emerald-400" />
                     <span
-                      className={`text-xl font-bold ${
+                      className={`text-sm sm:text-base md:text-xl font-bold ${
                         details.metacritic >= 75
                           ? "text-emerald-400"
                           : details.metacritic >= 50
@@ -310,45 +316,47 @@ export default function GameDetail({ game, onClose }) {
                     >
                       {details.metacritic}
                     </span>
-                    <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">
-                      Metacritic
+                    <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wider mt-0.5">
+                      Meta
                     </p>
                   </div>
                 </div>
               )}
 
               {details.playtime > 0 && (
-                <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 border border-white/10 hover:border-blue-500/30 transition-all">
+                <div className="group relative overflow-hidden rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-2 sm:p-3 md:p-4 border border-white/10 hover:border-blue-500/30 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative">
-                    <Clock className="w-4 h-4 mb-2 text-blue-400" />
+                    <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 mb-0.5 sm:mb-1 md:mb-2 text-blue-400" />
                     <div className="flex items-baseline gap-0.5">
-                      <span className="text-xl font-bold text-blue-400">
+                      <span className="text-sm sm:text-base md:text-xl font-bold text-blue-400">
                         {details.playtime}
                       </span>
-                      <span className="text-white/40 text-xs">hrs</span>
+                      <span className="text-white/40 text-[8px] sm:text-[10px] md:text-xs">
+                        h
+                      </span>
                     </div>
-                    <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">
-                      Playtime
+                    <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wider mt-0.5">
+                      Time
                     </p>
                   </div>
                 </div>
               )}
 
               {details.added > 0 && (
-                <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 border border-white/10 hover:border-pink-500/30 transition-all">
+                <div className="group relative overflow-hidden rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-2 sm:p-3 md:p-4 border border-white/10 hover:border-pink-500/30 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative">
-                    <Heart className="w-4 h-4 mb-2 text-pink-400" />
-                    <span className="text-xl font-bold text-pink-400">
+                    <Heart className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 mb-0.5 sm:mb-1 md:mb-2 text-pink-400" />
+                    <span className="text-sm sm:text-base md:text-xl font-bold text-pink-400">
                       {details.added >= 1000000
                         ? (details.added / 1000000).toFixed(1) + "M"
                         : details.added >= 1000
                         ? (details.added / 1000).toFixed(0) + "K"
                         : details.added.toLocaleString()}
                     </span>
-                    <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">
-                      Players
+                    <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wider mt-0.5">
+                      Added
                     </p>
                   </div>
                 </div>
@@ -356,35 +364,35 @@ export default function GameDetail({ game, onClose }) {
             </div>
 
             {/* Info Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
               {/* Left Column */}
-              <div className="space-y-5">
+              <div className="space-y-3 sm:space-y-4 md:space-y-5">
                 {/* Description */}
                 {gameDetails?.description_raw && (
-                  <div className="rounded-xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 border border-white/10">
-                    <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
-                      <Tag className="w-4 h-4 text-purple-400" />
+                  <div className="rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-3 sm:p-4 md:p-5 border border-white/10">
+                    <h3 className="text-white font-semibold mb-1.5 sm:mb-2 md:mb-3 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
+                      <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-purple-400" />
                       About
                     </h3>
-                    <p className="text-white/50 text-sm leading-relaxed line-clamp-6">
+                    <p className="text-white/50 text-[10px] sm:text-xs md:text-sm leading-relaxed line-clamp-4 sm:line-clamp-6">
                       {gameDetails.description_raw}
                     </p>
                   </div>
                 )}
 
                 {/* Developer & Publisher */}
-                <div className="space-y-3">
+                <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
                   {gameDetails?.developers &&
                     gameDetails.developers.length > 0 && (
-                      <div className="group flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 hover:border-purple-500/30 transition-all">
-                        <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-                          <Building2 className="w-4 h-4 text-purple-400" />
+                      <div className="group flex items-center gap-1.5 sm:gap-2 md:gap-3 p-2 sm:p-2.5 md:p-3 rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 hover:border-purple-500/30 transition-all">
+                        <div className="p-1 sm:p-1.5 md:p-2 rounded-md sm:rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+                          <Building2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-purple-400" />
                         </div>
                         <div>
-                          <p className="text-[10px] text-white/40 uppercase tracking-wide">
+                          <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wide">
                             Developer
                           </p>
-                          <p className="text-white text-sm font-medium">
+                          <p className="text-white text-[10px] sm:text-xs md:text-sm font-medium">
                             {gameDetails.developers
                               .map((d) => d.name)
                               .join(", ")}
@@ -395,15 +403,15 @@ export default function GameDetail({ game, onClose }) {
 
                   {gameDetails?.publishers &&
                     gameDetails.publishers.length > 0 && (
-                      <div className="group flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 hover:border-blue-500/30 transition-all">
-                        <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20">
-                          <Globe className="w-4 h-4 text-blue-400" />
+                      <div className="group flex items-center gap-1.5 sm:gap-2 md:gap-3 p-2 sm:p-2.5 md:p-3 rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 hover:border-blue-500/30 transition-all">
+                        <div className="p-1 sm:p-1.5 md:p-2 rounded-md sm:rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20">
+                          <Globe className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-blue-400" />
                         </div>
                         <div>
-                          <p className="text-[10px] text-white/40 uppercase tracking-wide">
+                          <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wide">
                             Publisher
                           </p>
-                          <p className="text-white text-sm font-medium">
+                          <p className="text-white text-[10px] sm:text-xs md:text-sm font-medium">
                             {gameDetails.publishers
                               .map((p) => p.name)
                               .join(", ")}
@@ -416,15 +424,15 @@ export default function GameDetail({ game, onClose }) {
                 {/* Genres */}
                 {details.genres && details.genres.length > 0 && (
                   <div>
-                    <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
-                      <Gamepad2 className="w-4 h-4 text-purple-400" />
+                    <h3 className="text-white font-semibold mb-1.5 sm:mb-2 md:mb-3 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
+                      <Gamepad2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-purple-400" />
                       Genres
                     </h3>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
                       {details.genres.map((genre) => (
                         <span
                           key={genre.id}
-                          className="text-xs text-purple-300/90 bg-purple-500/15 px-3 py-1.5 rounded-full border border-purple-500/20 hover:bg-purple-500/25 transition-colors"
+                          className="text-[9px] sm:text-[10px] md:text-xs text-purple-300/90 bg-purple-500/15 px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1.5 rounded-full border border-purple-500/20 hover:bg-purple-500/25 transition-colors"
                         >
                           {genre.name}
                         </span>
@@ -435,22 +443,22 @@ export default function GameDetail({ game, onClose }) {
               </div>
 
               {/* Right Column */}
-              <div className="space-y-5">
+              <div className="space-y-3 sm:space-y-4 md:space-y-5">
                 {/* Quick Details Card */}
-                <div className="rounded-xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 border border-white/10 space-y-4">
-                  <h3 className="text-white font-semibold flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-purple-400" />
+                <div className="rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-3 sm:p-4 md:p-5 border border-white/10 space-y-2 sm:space-y-3 md:space-y-4">
+                  <h3 className="text-white font-semibold flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
+                    <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-purple-400" />
                     Details
                   </h3>
 
                   {/* Release Date */}
-                  <div className="flex items-center gap-3 p-2.5 rounded-lg bg-white/[0.03] border border-white/5">
-                    <Calendar className="w-4 h-4 text-purple-400" />
+                  <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 p-1.5 sm:p-2 md:p-2.5 rounded-md sm:rounded-lg bg-white/[0.03] border border-white/5">
+                    <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-purple-400" />
                     <div>
-                      <p className="text-[10px] text-white/40 uppercase tracking-wide">
+                      <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wide">
                         Release Date
                       </p>
-                      <p className="text-white text-sm">
+                      <p className="text-white text-[10px] sm:text-xs md:text-sm">
                         {formatDate(details.released)}
                       </p>
                     </div>
@@ -458,13 +466,13 @@ export default function GameDetail({ game, onClose }) {
 
                   {/* Achievements */}
                   {gameDetails?.achievements_count > 0 && (
-                    <div className="flex items-center gap-3 p-2.5 rounded-lg bg-white/[0.03] border border-white/5">
-                      <Trophy className="w-4 h-4 text-yellow-400" />
+                    <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 p-1.5 sm:p-2 md:p-2.5 rounded-md sm:rounded-lg bg-white/[0.03] border border-white/5">
+                      <Trophy className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-yellow-400" />
                       <div>
-                        <p className="text-[10px] text-white/40 uppercase tracking-wide">
+                        <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 uppercase tracking-wide">
                           Achievements
                         </p>
-                        <p className="text-white text-sm">
+                        <p className="text-white text-[10px] sm:text-xs md:text-sm">
                           {gameDetails.achievements_count}
                         </p>
                       </div>
@@ -475,15 +483,15 @@ export default function GameDetail({ game, onClose }) {
                 {/* Platforms */}
                 {details.platforms && details.platforms.length > 0 && (
                   <div>
-                    <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
-                      <Monitor className="w-4 h-4 text-blue-400" />
+                    <h3 className="text-white font-semibold mb-1.5 sm:mb-2 md:mb-3 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
+                      <Monitor className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-blue-400" />
                       Platforms
                     </h3>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1 sm:gap-1 md:gap-1.5">
                       {details.platforms.map((p) => (
                         <span
                           key={p.platform.id}
-                          className="text-xs text-white/60 bg-white/[0.05] px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/[0.08] hover:border-white/20 transition-all"
+                          className="text-[9px] sm:text-[10px] md:text-xs text-white/60 bg-white/[0.05] px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1.5 rounded-md sm:rounded-lg border border-white/10 hover:bg-white/[0.08] hover:border-white/20 transition-all"
                         >
                           {p.platform.name}
                         </span>
@@ -498,11 +506,11 @@ export default function GameDetail({ game, onClose }) {
                     href={gameDetails.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 text-purple-300 px-4 py-3 rounded-xl transition-all border border-purple-500/20 hover:border-purple-500/40 group"
+                    className="flex items-center justify-center gap-1.5 sm:gap-2 w-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 text-purple-300 px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 rounded-md sm:rounded-lg md:rounded-xl transition-all border border-purple-500/20 hover:border-purple-500/40 group"
                   >
-                    <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    <span className="text-sm font-medium">
-                      Visit Official Website
+                    <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 group-hover:scale-110 transition-transform" />
+                    <span className="text-[10px] sm:text-xs md:text-sm font-medium">
+                      Official Website
                     </span>
                   </a>
                 )}
@@ -510,14 +518,14 @@ export default function GameDetail({ game, onClose }) {
                 {/* Tags */}
                 {gameDetails?.tags && gameDetails.tags.length > 0 && (
                   <div>
-                    <h3 className="text-white font-semibold mb-3">
+                    <h3 className="text-white font-semibold mb-1.5 sm:mb-2 md:mb-3 text-xs sm:text-sm md:text-base">
                       Popular Tags
                     </h3>
-                    <div className="flex flex-wrap gap-1.5">
-                      {gameDetails.tags.slice(0, 10).map((tag) => (
+                    <div className="flex flex-wrap gap-1 sm:gap-1 md:gap-1.5">
+                      {gameDetails.tags.slice(0, 8).map((tag) => (
                         <span
                           key={tag.id}
-                          className="text-[10px] text-white/40 bg-white/[0.04] px-2 py-1 rounded border border-white/5 hover:text-white/60 hover:bg-white/[0.08] transition-all"
+                          className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40 bg-white/[0.04] px-1 py-0.5 sm:px-1.5 sm:py-0.5 md:px-2 md:py-1 rounded border border-white/5 hover:text-white/60 hover:bg-white/[0.08] transition-all"
                         >
                           {tag.name}
                         </span>
@@ -530,12 +538,12 @@ export default function GameDetail({ game, onClose }) {
 
             {/* Rating Breakdown */}
             {gameDetails?.ratings && gameDetails.ratings.length > 0 && (
-              <div className="rounded-xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 border border-white/10">
-                <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                  <Star className="w-4 h-4 text-yellow-400" />
+              <div className="rounded-md sm:rounded-lg md:rounded-xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-3 sm:p-4 md:p-5 border border-white/10">
+                <h3 className="text-white font-semibold mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base">
+                  <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-yellow-400" />
                   Community Ratings
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
                   {gameDetails.ratings.map((rating) => {
                     const colors = {
                       exceptional: {
@@ -556,21 +564,23 @@ export default function GameDetail({ game, onClose }) {
 
                     return (
                       <div key={rating.id}>
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-white/70 capitalize text-sm">
+                        <div className="flex items-center justify-between mb-0.5">
+                          <span className="text-white/70 capitalize text-[10px] sm:text-xs md:text-sm">
                             {rating.title}
                           </span>
-                          <span className={`${color.text} font-bold text-sm`}>
+                          <span
+                            className={`${color.text} font-bold text-[10px] sm:text-xs md:text-sm`}
+                          >
                             {rating.percent.toFixed(0)}%
                           </span>
                         </div>
-                        <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-0.5 sm:h-1 md:h-1.5 bg-white/5 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full bg-gradient-to-r ${color.bg} to-transparent`}
                             style={{ width: `${rating.percent}%` }}
                           />
                         </div>
-                        <p className="text-[10px] text-white/30 mt-0.5">
+                        <p className="text-[8px] sm:text-[9px] md:text-[10px] text-white/30 mt-0.5">
                           {rating.count.toLocaleString()} votes
                         </p>
                       </div>

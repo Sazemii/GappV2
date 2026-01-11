@@ -291,34 +291,36 @@ export default function SteamGameDetail({ game, onClose }) {
           ) : gameDetails ? (
             <>
               {/* Hero Section */}
-              <div className="mb-16">
-                <h1 className="text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+              <div className="mb-8 lg:mb-16">
+                <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-white mb-4 lg:mb-8 leading-tight">
                   {gameDetails.name}
                 </h1>
 
                 {/* Quick Stats */}
-                <div className="flex flex-wrap items-center gap-4 mb-10">
+                <div className="flex flex-wrap items-center gap-2 lg:gap-4 mb-6 lg:mb-10">
                   {/* Current Players */}
                   {gameDetails.playerStats?.currentPlayers > 0 && (
-                    <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
-                      <Users className="w-6 h-6 text-green-400" />
-                      <span className="font-bold text-xl text-green-400">
+                    <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10">
+                      <Users className="w-4 h-4 lg:w-6 lg:h-6 text-white/70" />
+                      <span className="font-bold text-sm lg:text-xl text-white">
                         {formatNumber(gameDetails.playerStats.currentPlayers)}
                       </span>
-                      <span className="text-white/40 text-sm">playing now</span>
+                      <span className="text-white/40 text-xs lg:text-sm hidden sm:inline">
+                        playing
+                      </span>
                     </div>
                   )}
 
                   {/* Review Score */}
                   {gameDetails.reviews && (
-                    <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
+                    <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10">
                       <Star
-                        className={`w-6 h-6 ${getReviewColor(
+                        className={`w-4 h-4 lg:w-6 lg:h-6 ${getReviewColor(
                           gameDetails.reviews.reviewScoreDesc
                         )} fill-current`}
                       />
                       <span
-                        className={`font-bold text-xl ${getReviewColor(
+                        className={`font-bold text-sm lg:text-xl ${getReviewColor(
                           gameDetails.reviews.reviewScoreDesc
                         )}`}
                       >
@@ -330,14 +332,14 @@ export default function SteamGameDetail({ game, onClose }) {
                   {/* Metacritic */}
                   {gameDetails.metacritic && (
                     <div
-                      className={`px-5 py-3 rounded-2xl border ${getMetacriticColor(
+                      className={`px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border ${getMetacriticColor(
                         gameDetails.metacritic.score
                       )}`}
                     >
-                      <span className="font-bold text-xl">
+                      <span className="font-bold text-sm lg:text-xl">
                         {gameDetails.metacritic.score}
                       </span>
-                      <span className="text-white/40 text-sm ml-2">
+                      <span className="text-white/40 text-xs lg:text-sm ml-1 lg:ml-2">
                         Metacritic
                       </span>
                     </div>
@@ -345,28 +347,28 @@ export default function SteamGameDetail({ game, onClose }) {
 
                   {/* Price */}
                   {gameDetails.price ? (
-                    <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
+                    <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10">
                       {gameDetails.price.discountPercent > 0 && (
-                        <span className="bg-green-500 text-white text-sm font-bold px-2 py-1 rounded">
+                        <span className="bg-green-500 text-white text-xs lg:text-sm font-bold px-1.5 py-0.5 lg:px-2 lg:py-1 rounded">
                           -{gameDetails.price.discountPercent}%
                         </span>
                       )}
-                      <span className="text-white font-bold text-xl">
+                      <span className="text-white font-bold text-sm lg:text-xl">
                         {gameDetails.price.finalFormatted ||
                           `$${(gameDetails.price.final / 100).toFixed(2)}`}
                       </span>
                     </div>
                   ) : gameDetails.isFree ? (
-                    <div className="bg-green-500/20 text-green-400 px-5 py-3 rounded-2xl text-lg font-bold border border-green-500/30">
+                    <div className="bg-green-500/20 text-green-400 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl text-sm lg:text-lg font-bold border border-green-500/30">
                       Free to Play
                     </div>
                   ) : null}
 
                   {/* Release Date */}
                   {gameDetails.releaseDate && (
-                    <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10 text-white/80">
-                      <Calendar className="w-5 h-5" />
-                      <span className="font-medium">
+                    <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10 text-white/80">
+                      <Calendar className="w-4 h-4 lg:w-5 lg:h-5" />
+                      <span className="font-medium text-xs lg:text-base">
                         {gameDetails.releaseDate.comingSoon
                           ? "Coming Soon"
                           : formatDate(gameDetails.releaseDate.date)}
@@ -377,11 +379,11 @@ export default function SteamGameDetail({ game, onClose }) {
 
                 {/* Genres */}
                 {gameDetails.genres && gameDetails.genres.length > 0 && (
-                  <div className="flex flex-wrap gap-3 mb-10">
+                  <div className="flex flex-wrap gap-1.5 lg:gap-3 mb-6 lg:mb-10">
                     {gameDetails.genres.map((genre) => (
                       <span
                         key={genre.id}
-                        className="text-sm text-purple-300 bg-purple-500/15 px-5 py-2.5 rounded-full border border-purple-500/25 font-medium"
+                        className="text-xs lg:text-sm text-purple-300 bg-purple-500/15 px-2.5 py-1.5 lg:px-5 lg:py-2.5 rounded-full border border-purple-500/25 font-medium"
                       >
                         {genre.description}
                       </span>
@@ -391,7 +393,7 @@ export default function SteamGameDetail({ game, onClose }) {
 
                 {/* Description */}
                 {gameDetails.shortDescription && (
-                  <p className="text-white/70 text-lg leading-relaxed max-w-3xl">
+                  <p className="text-white/70 text-sm lg:text-lg leading-relaxed max-w-3xl">
                     {stripHtml(gameDetails.shortDescription)}
                   </p>
                 )}
@@ -399,32 +401,34 @@ export default function SteamGameDetail({ game, onClose }) {
 
               {/* Player Stats Section */}
               {gameDetails.playerStats && (
-                <div className="mb-16">
-                  <h3 className="text-white font-semibold text-xl mb-6 flex items-center gap-3">
-                    <TrendingUp className="w-6 h-6 text-purple-400" />
+                <div className="mb-8 lg:mb-16">
+                  <h3 className="text-white font-semibold text-base lg:text-xl mb-4 lg:mb-6 flex items-center gap-2 lg:gap-3">
+                    <TrendingUp className="w-4 h-4 lg:w-6 lg:h-6 text-white/60" />
                     Live Player Statistics
                   </h3>
-                  <div className="bg-white/5 rounded-3xl p-6 border border-white/10">
-                    <div className="grid grid-cols-3 gap-6 mb-6">
+                  <div className="bg-white/5 rounded-xl lg:rounded-3xl p-4 lg:p-6 border border-white/10">
+                    <div className="grid grid-cols-3 gap-2 lg:gap-6 mb-4 lg:mb-6">
                       <div className="text-center">
-                        <p className="text-white/40 text-sm mb-2">
-                          Current Players
+                        <p className="text-white/40 text-[10px] lg:text-sm mb-1 lg:mb-2">
+                          Current
                         </p>
-                        <p className="text-3xl font-bold text-green-400">
+                        <p className="text-base lg:text-2xl font-bold text-white">
                           {formatNumber(gameDetails.playerStats.currentPlayers)}
                         </p>
                       </div>
                       <div className="text-center">
-                        <p className="text-white/40 text-sm mb-2">24h Peak</p>
-                        <p className="text-3xl font-bold text-purple-400">
+                        <p className="text-white/40 text-[10px] lg:text-sm mb-1 lg:mb-2">
+                          24h Peak
+                        </p>
+                        <p className="text-base lg:text-2xl font-bold text-white/80">
                           {formatNumber(gameDetails.playerStats.peakPlayers24h)}
                         </p>
                       </div>
                       <div className="text-center">
-                        <p className="text-white/40 text-sm mb-2">
-                          All-Time Peak
+                        <p className="text-white/40 text-[10px] lg:text-sm mb-1 lg:mb-2">
+                          All-Time
                         </p>
-                        <p className="text-3xl font-bold text-amber-400">
+                        <p className="text-base lg:text-2xl font-bold text-white/60">
                           {formatNumber(gameDetails.playerStats.allTimePeak)}
                         </p>
                       </div>
@@ -432,7 +436,7 @@ export default function SteamGameDetail({ game, onClose }) {
 
                     {gameDetails.playerStats.playerHistory?.length > 0 && (
                       <div>
-                        <p className="text-white/40 text-sm mb-3">
+                        <p className="text-white/40 text-xs lg:text-sm mb-2 lg:mb-3">
                           Player History (7 Days)
                         </p>
                         <PlayerHistoryChart
@@ -447,10 +451,10 @@ export default function SteamGameDetail({ game, onClose }) {
               {/* Screenshots/Media Gallery */}
               {(gameDetails.movies?.length > 0 ||
                 gameDetails.screenshots?.length > 0) && (
-                <div className="mb-16">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-white font-semibold text-xl flex items-center gap-3">
-                      <Palette className="w-6 h-6 text-purple-400" />
+                <div className="mb-8 lg:mb-16">
+                  <div className="flex items-center justify-between mb-4 lg:mb-6">
+                    <h3 className="text-white font-semibold text-base lg:text-xl flex items-center gap-2 lg:gap-3">
+                      <Palette className="w-4 h-4 lg:w-6 lg:h-6 text-purple-400" />
                       {showTrailer ? "Trailer" : "Screenshots"}
                     </h3>
                     {gameDetails.movies?.length > 0 && (
@@ -491,14 +495,14 @@ export default function SteamGameDetail({ game, onClose }) {
                   {/* Screenshots */}
                   {!showTrailer && gameDetails.screenshots?.length > 0 && (
                     <div className="relative group">
-                      <div className="relative rounded-3xl overflow-hidden bg-black/20 border border-white/5">
+                      <div className="relative rounded-xl lg:rounded-3xl overflow-hidden bg-black/20 border border-white/5">
                         <img
                           src={
                             gameDetails.screenshots[currentScreenshot]
                               ?.path_full
                           }
                           alt={`Screenshot ${currentScreenshot + 1}`}
-                          className="w-full h-[300px] lg:h-[500px] object-cover"
+                          className="w-full h-[200px] sm:h-[300px] lg:h-[500px] object-cover"
                         />
 
                         {gameDetails.screenshots.length > 1 && (
@@ -566,40 +570,40 @@ export default function SteamGameDetail({ game, onClose }) {
               )}
 
               {/* Game Details Section */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-12">
                 {/* Left Column - Main Info */}
-                <div className="lg:col-span-2 space-y-10">
+                <div className="lg:col-span-2 space-y-6 lg:space-y-10">
                   {/* User Reviews */}
                   {gameDetails.reviews &&
                     gameDetails.reviews.totalReviews > 0 && (
                       <div>
-                        <h3 className="text-white text-xl font-semibold mb-5">
+                        <h3 className="text-white text-base lg:text-xl font-semibold mb-3 lg:mb-5">
                           User Reviews
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-3 lg:space-y-4">
                           <div className="flex items-center justify-between mb-2">
                             <span
-                              className={`font-bold text-lg ${getReviewColor(
+                              className={`font-bold text-sm lg:text-lg ${getReviewColor(
                                 gameDetails.reviews.reviewScoreDesc
                               )}`}
                             >
                               {gameDetails.reviews.reviewScoreDesc}
                             </span>
-                            <span className="text-white/60">
+                            <span className="text-white/60 text-xs lg:text-base">
                               {gameDetails.reviews.totalReviews.toLocaleString()}{" "}
                               reviews
                             </span>
                           </div>
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2">
-                              <ThumbsUp className="w-5 h-5 text-green-400" />
-                              <span className="text-green-400 font-medium">
+                          <div className="flex items-center gap-3 lg:gap-4">
+                            <div className="flex items-center gap-1.5 lg:gap-2">
+                              <ThumbsUp className="w-4 h-4 lg:w-5 lg:h-5 text-green-400" />
+                              <span className="text-green-400 font-medium text-sm lg:text-base">
                                 {gameDetails.reviews.totalPositive.toLocaleString()}
                               </span>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <ThumbsDown className="w-5 h-5 text-red-400" />
-                              <span className="text-red-400 font-medium">
+                            <div className="flex items-center gap-1.5 lg:gap-2">
+                              <ThumbsDown className="w-4 h-4 lg:w-5 lg:h-5 text-red-400" />
+                              <span className="text-red-400 font-medium text-sm lg:text-base">
                                 {gameDetails.reviews.totalNegative.toLocaleString()}
                               </span>
                             </div>
@@ -624,14 +628,14 @@ export default function SteamGameDetail({ game, onClose }) {
                   {gameDetails.categories &&
                     gameDetails.categories.length > 0 && (
                       <div>
-                        <h3 className="text-white text-xl font-semibold mb-5">
+                        <h3 className="text-white text-base lg:text-xl font-semibold mb-3 lg:mb-5">
                           Features
                         </h3>
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-1.5 lg:gap-2">
                           {gameDetails.categories.slice(0, 12).map((cat) => (
                             <span
                               key={cat.id}
-                              className="text-white/70 bg-white/5 px-4 py-2 rounded-lg"
+                              className="text-[10px] lg:text-xs text-white/50 bg-white/[0.04] px-2 py-1 lg:px-3 lg:py-1.5 rounded border border-white/5 hover:text-white/70 hover:bg-white/[0.08] transition-all"
                             >
                               {cat.description}
                             </span>
@@ -644,25 +648,25 @@ export default function SteamGameDetail({ game, onClose }) {
                   {gameDetails.achievements &&
                     gameDetails.achievements.total > 0 && (
                       <div>
-                        <h3 className="text-white text-xl font-semibold mb-5 flex items-center gap-2">
-                          <Trophy className="w-5 h-5 text-yellow-400" />
+                        <h3 className="text-white text-base lg:text-xl font-semibold mb-3 lg:mb-5 flex items-center gap-2">
+                          <Trophy className="w-4 h-4 lg:w-5 lg:h-5 text-yellow-400" />
                           Achievements ({gameDetails.achievements.total})
                         </h3>
                         {gameDetails.achievements.highlighted?.length > 0 && (
-                          <div className="flex flex-wrap gap-3">
+                          <div className="flex flex-wrap gap-2 lg:gap-3">
                             {gameDetails.achievements.highlighted
                               .slice(0, 6)
                               .map((achievement, idx) => (
                                 <div
                                   key={idx}
-                                  className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-xl border border-white/10"
+                                  className="flex items-center gap-2 lg:gap-3 bg-white/5 px-2.5 py-2 lg:px-4 lg:py-3 rounded-lg lg:rounded-xl border border-white/10"
                                 >
                                   <img
                                     src={achievement.path}
                                     alt={achievement.name}
-                                    className="w-10 h-10 rounded-lg"
+                                    className="w-7 h-7 lg:w-10 lg:h-10 rounded-md lg:rounded-lg"
                                   />
-                                  <span className="text-sm text-white/80">
+                                  <span className="text-xs lg:text-sm text-white/80">
                                     {achievement.name}
                                   </span>
                                 </div>
@@ -675,13 +679,13 @@ export default function SteamGameDetail({ game, onClose }) {
                   {/* System Requirements */}
                   {gameDetails.pcRequirements?.minimum && (
                     <div>
-                      <h3 className="text-white text-xl font-semibold mb-5 flex items-center gap-2">
-                        <Cpu className="w-5 h-5 text-blue-400" />
+                      <h3 className="text-white text-base lg:text-xl font-semibold mb-3 lg:mb-5 flex items-center gap-2">
+                        <Cpu className="w-4 h-4 lg:w-5 lg:h-5 text-blue-400" />
                         System Requirements
                       </h3>
-                      <div className="bg-white/5 rounded-xl p-5 border border-white/10">
+                      <div className="bg-white/5 rounded-lg lg:rounded-xl p-3 lg:p-5 border border-white/10">
                         <div
-                          className="text-white/70 text-sm leading-relaxed [&_strong]:text-white [&_br]:mb-1"
+                          className="text-white/70 text-xs lg:text-sm leading-relaxed [&_strong]:text-white [&_br]:mb-1"
                           dangerouslySetInnerHTML={{
                             __html: gameDetails.pcRequirements.minimum,
                           }}
@@ -692,17 +696,17 @@ export default function SteamGameDetail({ game, onClose }) {
                 </div>
 
                 {/* Right Column - Sidebar */}
-                <div className="space-y-8">
+                <div className="space-y-4 lg:space-y-8">
                   {/* Info Card */}
-                  <div className="bg-white/5 rounded-xl p-6 space-y-5">
+                  <div className="bg-white/5 rounded-lg lg:rounded-xl p-4 lg:p-6 space-y-4 lg:space-y-5">
                     {gameDetails.developers?.length > 0 && (
-                      <div className="flex items-start gap-4">
-                        <Building2 className="w-5 h-5 text-white/40 mt-0.5" />
+                      <div className="flex items-start gap-3 lg:gap-4">
+                        <Building2 className="w-4 h-4 lg:w-5 lg:h-5 text-white/40 mt-0.5" />
                         <div>
-                          <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                          <p className="text-[10px] lg:text-xs text-white/40 uppercase tracking-wide mb-0.5 lg:mb-1">
                             Developer
                           </p>
-                          <p className="text-white">
+                          <p className="text-white text-sm lg:text-base">
                             {gameDetails.developers.join(", ")}
                           </p>
                         </div>
@@ -710,13 +714,13 @@ export default function SteamGameDetail({ game, onClose }) {
                     )}
 
                     {gameDetails.publishers?.length > 0 && (
-                      <div className="flex items-start gap-4">
-                        <Globe className="w-5 h-5 text-white/40 mt-0.5" />
+                      <div className="flex items-start gap-3 lg:gap-4">
+                        <Globe className="w-4 h-4 lg:w-5 lg:h-5 text-white/40 mt-0.5" />
                         <div>
-                          <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                          <p className="text-[10px] lg:text-xs text-white/40 uppercase tracking-wide mb-0.5 lg:mb-1">
                             Publisher
                           </p>
-                          <p className="text-white">
+                          <p className="text-white text-sm lg:text-base">
                             {gameDetails.publishers.join(", ")}
                           </p>
                         </div>
@@ -724,13 +728,13 @@ export default function SteamGameDetail({ game, onClose }) {
                     )}
 
                     {gameDetails.releaseDate && (
-                      <div className="flex items-start gap-4">
-                        <Calendar className="w-5 h-5 text-white/40 mt-0.5" />
+                      <div className="flex items-start gap-3 lg:gap-4">
+                        <Calendar className="w-4 h-4 lg:w-5 lg:h-5 text-white/40 mt-0.5" />
                         <div>
-                          <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                          <p className="text-[10px] lg:text-xs text-white/40 uppercase tracking-wide mb-0.5 lg:mb-1">
                             Release Date
                           </p>
-                          <p className="text-white">
+                          <p className="text-white text-sm lg:text-base">
                             {gameDetails.releaseDate.comingSoon
                               ? "Coming Soon"
                               : formatDate(gameDetails.releaseDate.date)}
@@ -740,13 +744,13 @@ export default function SteamGameDetail({ game, onClose }) {
                     )}
 
                     {gameDetails.recommendations > 0 && (
-                      <div className="flex items-start gap-4">
-                        <Users className="w-5 h-5 text-white/40 mt-0.5" />
+                      <div className="flex items-start gap-3 lg:gap-4">
+                        <Users className="w-4 h-4 lg:w-5 lg:h-5 text-white/40 mt-0.5" />
                         <div>
-                          <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                          <p className="text-[10px] lg:text-xs text-white/40 uppercase tracking-wide mb-0.5 lg:mb-1">
                             Recommendations
                           </p>
-                          <p className="text-white">
+                          <p className="text-white text-sm lg:text-base">
                             {gameDetails.recommendations.toLocaleString()}
                           </p>
                         </div>
@@ -754,25 +758,25 @@ export default function SteamGameDetail({ game, onClose }) {
                     )}
 
                     {/* Platforms */}
-                    <div className="flex items-start gap-4">
-                      <Monitor className="w-5 h-5 text-white/40 mt-0.5" />
+                    <div className="flex items-start gap-3 lg:gap-4">
+                      <Monitor className="w-4 h-4 lg:w-5 lg:h-5 text-white/40 mt-0.5" />
                       <div>
-                        <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
+                        <p className="text-[10px] lg:text-xs text-white/40 uppercase tracking-wide mb-0.5 lg:mb-1">
                           Platforms
                         </p>
-                        <div className="flex gap-2 flex-wrap">
+                        <div className="flex gap-1.5 lg:gap-2 flex-wrap">
                           {gameDetails.platforms?.windows && (
-                            <span className="text-xs bg-white/10 px-2 py-1 rounded text-white/70">
+                            <span className="text-[10px] lg:text-xs bg-white/10 px-1.5 py-0.5 lg:px-2 lg:py-1 rounded text-white/70">
                               Windows
                             </span>
                           )}
                           {gameDetails.platforms?.mac && (
-                            <span className="text-xs bg-white/10 px-2 py-1 rounded text-white/70">
+                            <span className="text-[10px] lg:text-xs bg-white/10 px-1.5 py-0.5 lg:px-2 lg:py-1 rounded text-white/70">
                               Mac
                             </span>
                           )}
                           {gameDetails.platforms?.linux && (
-                            <span className="text-xs bg-white/10 px-2 py-1 rounded text-white/70">
+                            <span className="text-[10px] lg:text-xs bg-white/10 px-1.5 py-0.5 lg:px-2 lg:py-1 rounded text-white/70">
                               Linux
                             </span>
                           )}
@@ -786,7 +790,7 @@ export default function SteamGameDetail({ game, onClose }) {
                     href={gameDetails.storeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#1b2838] to-[#2a475e] hover:from-[#2a475e] hover:to-[#3d6a8a] text-white py-3 rounded-lg transition-all border border-[#3d6a8a]"
+                    className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#1b2838] to-[#2a475e] hover:from-[#2a475e] hover:to-[#3d6a8a] text-white py-2.5 lg:py-3 rounded-lg transition-all border border-[#3d6a8a] text-sm lg:text-base"
                   >
                     <ShoppingCart className="w-4 h-4" />
                     <span>View on Steam</span>
@@ -797,7 +801,7 @@ export default function SteamGameDetail({ game, onClose }) {
                       href={gameDetails.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/15 text-white py-3 rounded-lg transition-colors"
+                      className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/15 text-white py-2.5 lg:py-3 rounded-lg transition-colors text-sm lg:text-base"
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>Official Website</span>
@@ -809,7 +813,7 @@ export default function SteamGameDetail({ game, onClose }) {
                       href={gameDetails.metacritic.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/15 text-white py-3 rounded-lg transition-colors"
+                      className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/15 text-white py-2.5 lg:py-3 rounded-lg transition-colors text-sm lg:text-base"
                     >
                       <Star className="w-4 h-4" />
                       <span>View on Metacritic</span>

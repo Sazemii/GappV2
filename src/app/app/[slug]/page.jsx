@@ -145,68 +145,71 @@ export default function GameDetailPage({ params }) {
 
       {/* Content */}
       <div className="relative z-10 min-h-screen">
-        <div className="max-w-6xl mx-auto px-6 lg:px-10 py-8">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-8">
           {/* Back Button */}
           <button
             onClick={handleBack}
-            className="flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-12 group"
+            className="flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-8 sm:mb-10 lg:mb-12 group"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             <span className="text-sm font-medium">Back to Games</span>
           </button>
 
           {/* Hero Section */}
-          <div className="mb-16">
-            <h1 className="text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+          <div className="mb-10 sm:mb-12 lg:mb-16">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 sm:mb-6 lg:mb-8 leading-tight">
               {gameDetails.name}
             </h1>
 
             {/* Quick Stats */}
-            <div className="flex flex-wrap items-center gap-4 mb-10">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8 lg:mb-10">
               {gameDetails.rating > 0 && (
-                <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10">
                   <Star
-                    className={`w-6 h-6 ${getRatingColor(
+                    className={`w-4 h-4 lg:w-6 lg:h-6 ${getRatingColor(
                       gameDetails.rating
                     )} fill-current`}
                   />
                   <span
-                    className={`font-bold text-xl ${getRatingColor(
+                    className={`font-bold text-sm lg:text-xl ${getRatingColor(
                       gameDetails.rating
                     )}`}
                   >
                     {gameDetails.rating.toFixed(1)}
                   </span>
-                  <span className="text-white/40 text-sm">/ 5</span>
+                  <span className="text-white/40 text-xs lg:text-sm">/ 5</span>
                 </div>
               )}
 
               {gameDetails.metacritic && (
                 <div
-                  className={`px-5 py-3 rounded-2xl border ${getMetacriticColor(
+                  className={`px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border ${getMetacriticColor(
                     gameDetails.metacritic
                   )}`}
                 >
-                  <span className="font-bold text-xl">
+                  <span className="font-bold text-sm lg:text-xl">
                     {gameDetails.metacritic}
                   </span>
-                  <span className="text-white/40 text-sm ml-2">Metacritic</span>
+                  <span className="text-white/40 text-xs lg:text-sm ml-1 lg:ml-2">
+                    Metacritic
+                  </span>
                 </div>
               )}
 
               {gameDetails.playtime > 0 && (
-                <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10 text-white/80">
-                  <Clock className="w-5 h-5" />
-                  <span className="font-medium">
-                    {gameDetails.playtime}h avg playtime
+                <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10 text-white/80">
+                  <Clock className="w-4 h-4 lg:w-5 lg:h-5" />
+                  <span className="font-medium text-xs lg:text-base">
+                    {gameDetails.playtime}h{" "}
+                    <span className="hidden sm:inline">avg playtime</span>
                   </span>
                 </div>
               )}
 
               {gameDetails.released && (
-                <div className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-2xl border border-white/10 text-white/80">
-                  <Calendar className="w-5 h-5" />
-                  <span className="font-medium">
+                <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10 text-white/80">
+                  <Calendar className="w-4 h-4 lg:w-5 lg:h-5" />
+                  <span className="font-medium text-xs lg:text-base">
                     {formatDate(gameDetails.released)}
                   </span>
                 </div>
@@ -215,11 +218,11 @@ export default function GameDetailPage({ params }) {
 
             {/* Genres */}
             {gameDetails.genres && gameDetails.genres.length > 0 && (
-              <div className="flex flex-wrap gap-3 mb-10">
+              <div className="flex flex-wrap gap-2 lg:gap-3 mb-6 lg:mb-10">
                 {gameDetails.genres.map((genre) => (
                   <span
                     key={genre.id}
-                    className="text-sm text-purple-300 bg-purple-500/15 px-5 py-2.5 rounded-full border border-purple-500/25 font-medium"
+                    className="text-sm text-purple-300 bg-purple-500/15 px-4 py-2 lg:px-5 lg:py-2.5 rounded-full border border-purple-500/25 font-medium"
                   >
                     {genre.name}
                   </span>
@@ -229,7 +232,7 @@ export default function GameDetailPage({ params }) {
 
             {/* Description */}
             {gameDetails.description_raw && (
-              <p className="text-white/70 text-lg leading-relaxed max-w-3xl">
+              <p className="text-white/70 text-sm lg:text-lg leading-relaxed max-w-3xl">
                 {gameDetails.description_raw.slice(0, 600)}
                 {gameDetails.description_raw.length > 600 && "..."}
               </p>
@@ -238,43 +241,43 @@ export default function GameDetailPage({ params }) {
 
           {/* Screenshots Gallery */}
           {screenshots.length > 0 && (
-            <div className="mb-16">
-              <h3 className="text-white font-semibold text-xl mb-6 flex items-center gap-3">
-                <Palette className="w-6 h-6 text-purple-400" />
+            <div className="mb-10 sm:mb-12 lg:mb-16">
+              <h3 className="text-white font-semibold text-lg lg:text-xl mb-5 lg:mb-6 flex items-center gap-3">
+                <Palette className="w-5 h-5 lg:w-6 lg:h-6 text-purple-400" />
                 Screenshots
               </h3>
               <div className="relative group">
-                <div className="relative rounded-3xl overflow-hidden bg-black/20 border border-white/5">
+                <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden bg-black/20 border border-white/5">
                   <img
                     src={screenshots[currentScreenshot]?.image}
                     alt={`Screenshot ${currentScreenshot + 1}`}
-                    className="w-full h-[300px] lg:h-[500px] object-cover"
+                    className="w-full h-[220px] sm:h-[300px] lg:h-[450px] xl:h-[500px] object-cover"
                   />
 
                   {screenshots.length > 1 && (
                     <>
                       <button
                         onClick={prevScreenshot}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10 opacity-0 group-hover:opacity-100"
+                        className="absolute left-3 lg:left-4 top-1/2 -translate-y-1/2 bg-black/50 p-2 lg:p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10 opacity-0 group-hover:opacity-100"
                       >
-                        <ChevronLeft className="w-6 h-6" />
+                        <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
                       </button>
                       <button
                         onClick={nextScreenshot}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10 opacity-0 group-hover:opacity-100"
+                        className="absolute right-3 lg:right-4 top-1/2 -translate-y-1/2 bg-black/50 p-2 lg:p-3 rounded-full text-white/70 hover:text-white hover:bg-black/70 transition-all border border-white/10 opacity-0 group-hover:opacity-100"
                       >
-                        <ChevronRight className="w-6 h-6" />
+                        <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
                       </button>
 
                       {/* Dot indicators */}
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                      <div className="absolute bottom-3 lg:bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                         {screenshots.slice(0, 10).map((_, idx) => (
                           <button
                             key={idx}
                             onClick={() => setCurrentScreenshot(idx)}
                             className={`h-2 rounded-full transition-all ${
                               idx === currentScreenshot
-                                ? "bg-purple-400 w-8"
+                                ? "bg-purple-400 w-6 lg:w-8"
                                 : "bg-white/30 w-2 hover:bg-white/50"
                             }`}
                           />
@@ -300,7 +303,7 @@ export default function GameDetailPage({ params }) {
                         <img
                           src={screenshot.image}
                           alt={`Thumbnail ${idx + 1}`}
-                          className="w-24 h-14 object-cover"
+                          className="w-20 h-12 lg:w-24 lg:h-14 object-cover"
                         />
                       </button>
                     ))}
@@ -311,13 +314,13 @@ export default function GameDetailPage({ params }) {
           )}
 
           {/* Game Details Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             {/* Left Column - Main Info */}
-            <div className="lg:col-span-2 space-y-10">
+            <div className="lg:col-span-2 space-y-8 lg:space-y-10">
               {/* Ratings */}
               {gameDetails.ratings && gameDetails.ratings.length > 0 && (
                 <div>
-                  <h3 className="text-white text-xl font-semibold mb-5">
+                  <h3 className="text-white text-lg lg:text-xl font-semibold mb-4 lg:mb-5">
                     Ratings
                   </h3>
                   <div className="space-y-4">
@@ -333,10 +336,10 @@ export default function GameDetailPage({ params }) {
                       return (
                         <div key={rating.id}>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-white/80 capitalize">
+                            <span className="text-white/80 capitalize text-sm lg:text-base">
                               {rating.title}
                             </span>
-                            <span className="text-white/60">
+                            <span className="text-white/60 text-sm lg:text-base">
                               {rating.percent.toFixed(0)}%
                             </span>
                           </div>
@@ -356,14 +359,14 @@ export default function GameDetailPage({ params }) {
               {/* Platforms */}
               {gameDetails.platforms && gameDetails.platforms.length > 0 && (
                 <div>
-                  <h3 className="text-white text-xl font-semibold mb-5">
+                  <h3 className="text-white text-lg lg:text-xl font-semibold mb-4 lg:mb-5">
                     Platforms
                   </h3>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2 lg:gap-3">
                     {gameDetails.platforms.map((p) => (
                       <span
                         key={p.platform.id}
-                        className="text-white/70 bg-white/5 px-4 py-2 rounded-lg"
+                        className="text-sm text-white/70 bg-white/5 px-3 py-2 lg:px-4 lg:py-2 rounded-lg"
                       >
                         {p.platform.name}
                       </span>
@@ -375,14 +378,14 @@ export default function GameDetailPage({ params }) {
               {/* Tags */}
               {gameDetails.tags && gameDetails.tags.length > 0 && (
                 <div>
-                  <h3 className="text-white text-xl font-semibold mb-5">
+                  <h3 className="text-white text-lg lg:text-xl font-semibold mb-4 lg:mb-5">
                     Tags
                   </h3>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 lg:gap-2">
                     {gameDetails.tags.slice(0, 15).map((tag) => (
                       <span
                         key={tag.id}
-                        className="text-sm text-white/50 bg-white/5 px-3 py-1.5 rounded-lg"
+                        className="text-xs lg:text-sm text-white/50 bg-white/5 px-2.5 py-1.5 lg:px-3 lg:py-1.5 rounded-lg"
                       >
                         {tag.name}
                       </span>
@@ -393,18 +396,18 @@ export default function GameDetailPage({ params }) {
             </div>
 
             {/* Right Column - Sidebar */}
-            <div className="space-y-8">
+            <div className="space-y-6 lg:space-y-8">
               {/* Info Card */}
-              <div className="bg-white/5 rounded-xl p-6 space-y-5">
+              <div className="bg-white/5 rounded-xl p-5 lg:p-6 space-y-4 lg:space-y-5">
                 {gameDetails.developers &&
                   gameDetails.developers.length > 0 && (
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3 lg:gap-4">
                       <Building2 className="w-5 h-5 text-white/40 mt-0.5" />
                       <div>
                         <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
                           Developer
                         </p>
-                        <p className="text-white">
+                        <p className="text-white text-sm lg:text-base">
                           {gameDetails.developers.map((d) => d.name).join(", ")}
                         </p>
                       </div>
@@ -413,13 +416,13 @@ export default function GameDetailPage({ params }) {
 
                 {gameDetails.publishers &&
                   gameDetails.publishers.length > 0 && (
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3 lg:gap-4">
                       <Globe className="w-5 h-5 text-white/40 mt-0.5" />
                       <div>
                         <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
                           Publisher
                         </p>
-                        <p className="text-white">
+                        <p className="text-white text-sm lg:text-base">
                           {gameDetails.publishers.map((p) => p.name).join(", ")}
                         </p>
                       </div>
@@ -427,13 +430,13 @@ export default function GameDetailPage({ params }) {
                   )}
 
                 {gameDetails.released && (
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 lg:gap-4">
                     <Calendar className="w-5 h-5 text-white/40 mt-0.5" />
                     <div>
                       <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
                         Release Date
                       </p>
-                      <p className="text-white">
+                      <p className="text-white text-sm lg:text-base">
                         {formatDate(gameDetails.released)}
                       </p>
                     </div>
@@ -441,13 +444,13 @@ export default function GameDetailPage({ params }) {
                 )}
 
                 {gameDetails.added > 0 && (
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 lg:gap-4">
                     <Users className="w-5 h-5 text-white/40 mt-0.5" />
                     <div>
                       <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
                         Added by
                       </p>
-                      <p className="text-white">
+                      <p className="text-white text-sm lg:text-base">
                         {gameDetails.added.toLocaleString()} players
                       </p>
                     </div>
@@ -455,13 +458,13 @@ export default function GameDetailPage({ params }) {
                 )}
 
                 {gameDetails.achievements_count > 0 && (
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 lg:gap-4">
                     <Trophy className="w-5 h-5 text-white/40 mt-0.5" />
                     <div>
                       <p className="text-xs text-white/40 uppercase tracking-wide mb-1">
                         Achievements
                       </p>
-                      <p className="text-white">
+                      <p className="text-white text-sm lg:text-base">
                         {gameDetails.achievements_count}
                       </p>
                     </div>
@@ -475,7 +478,7 @@ export default function GameDetailPage({ params }) {
                   href={gameDetails.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/15 text-white py-3 rounded-lg transition-colors"
+                  className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/15 text-white py-3 rounded-lg transition-colors text-sm lg:text-base"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>Official Website</span>
