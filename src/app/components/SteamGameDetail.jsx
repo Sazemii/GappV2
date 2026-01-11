@@ -161,6 +161,7 @@ function getMetacriticColor(score) {
 }
 
 export default function SteamGameDetail({ game, onClose }) {
+  const containerRef = useRef(null);
   const [gameDetails, setGameDetails] = useState(null);
   const [currentScreenshot, setCurrentScreenshot] = useState(0);
   const [showTrailer, setShowTrailer] = useState(false);
@@ -171,6 +172,11 @@ export default function SteamGameDetail({ game, onClose }) {
     if (game?.appid) {
       fetchGameDetails();
       document.body.style.overflow = "hidden";
+
+      if (containerRef.current) {
+        containerRef.current.scrollTop = 0;
+      }
+      window.scrollTo(0, 0);
     }
     return () => {
       document.body.style.overflow = "unset";
@@ -231,7 +237,10 @@ export default function SteamGameDetail({ game, onClose }) {
   if (!game) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#0a0a0a] overflow-y-auto">
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-50 bg-[#0a0a0a] overflow-y-auto"
+    >
       {/* Full Screen Background Image */}
       <div className="fixed inset-0 z-0">
         {gameDetails ? (

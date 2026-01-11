@@ -30,6 +30,8 @@ export default function GameDetailPage({ params }) {
   const gameId = resolvedParams.slug;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (gameId) {
       fetchGameDetails();
       fetchScreenshots();
@@ -60,6 +62,7 @@ export default function GameDetailPage({ params }) {
   };
 
   const handleBack = () => {
+    window.scrollTo(0, 0);
     router.back();
   };
 

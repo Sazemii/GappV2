@@ -29,6 +29,10 @@ export default function AppPage() {
 
   const navItems = ["Home", "Charts", "Discover"];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Debounce search query from nav search bar
   useEffect(() => {
     const timer = setTimeout(() => {

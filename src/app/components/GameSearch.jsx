@@ -18,7 +18,7 @@ export default function GameSearch() {
   const [hasMore, setHasMore] = useState(true);
   const [selectedGame, setSelectedGame] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
-  
+
   const [filters, setFilters] = useState({
     genres: [],
     platforms: [],
@@ -68,9 +68,7 @@ export default function GameSearch() {
           params.append("platforms", filters.platforms.join(","));
         }
 
-        const response = await fetch(
-          `/api/rawg/games?${params.toString()}`
-        );
+        const response = await fetch(`/api/rawg/games?${params.toString()}`);
         const data = await response.json();
 
         if (isReset) {
@@ -174,8 +172,11 @@ export default function GameSearch() {
 
         {/* Mobile Filters Dropdown */}
         {showFilters && (
-          <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setShowFilters(false)}>
-            <div 
+          <div
+            className="lg:hidden fixed inset-0 z-40 bg-black/50"
+            onClick={() => setShowFilters(false)}
+          >
+            <div
               className="absolute left-4 right-4 top-32 max-h-[60vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
@@ -253,12 +254,6 @@ export default function GameSearch() {
           )}
         </div>
       </div>
-
-      {/* Game Detail Modal */}
-      {selectedGame && (
-        <GameDetail game={selectedGame} onClose={() => setSelectedGame(null)} />
-      )}
     </div>
   );
 }
-
