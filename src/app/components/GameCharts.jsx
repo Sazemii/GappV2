@@ -126,7 +126,7 @@ function formatChange(change, changePercent) {
   };
 }
 
-export default function GameCharts() {
+export default function GameCharts({ onGameClick }) {
   const [topGames, setTopGames] = useState([]);
   const [trendingGames, setTrendingGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -227,7 +227,8 @@ export default function GameCharts() {
               {displayedTopGames.map((game, index) => (
                 <tr
                   key={game.appid}
-                  className="text-white text-[11px] font-['Inter'] border-b border-[#2A2A2A]/50 hover:bg-[#252525]/50"
+                  onClick={() => onGameClick?.(game)}
+                  className="text-white text-[11px] font-['Inter'] border-b border-[#2A2A2A]/50 hover:bg-[#252525]/50 cursor-pointer"
                 >
                   <td className="py-1.5 px-1 text-[#A1A1A1]">{index + 1}</td>
                   <td className="py-1.5 px-1">
@@ -268,7 +269,8 @@ export default function GameCharts() {
           {displayedTopGamesMobile.map((game, index) => (
             <div
               key={game.appid}
-              className="flex items-center gap-2 bg-[#252525]/50 rounded-lg p-2"
+              onClick={() => onGameClick?.(game)}
+              className="flex items-center gap-2 bg-[#252525]/50 rounded-lg p-2 cursor-pointer hover:bg-[#252525] transition-colors"
             >
               <span className="text-[#A1A1A1] font-mono text-[10px] w-4">
                 {index + 1}
@@ -352,7 +354,8 @@ export default function GameCharts() {
                 return (
                   <tr
                     key={game.appid}
-                    className="text-white text-[11px] font-['Inter'] border-b border-[#2A2A2A]/50 hover:bg-[#252525]/50"
+                    onClick={() => onGameClick?.(game)}
+                    className="text-white text-[11px] font-['Inter'] border-b border-[#2A2A2A]/50 hover:bg-[#252525]/50 cursor-pointer"
                   >
                     <td className="py-1.5 px-1 text-[#A1A1A1]">{index + 1}</td>
                     <td className="py-1.5 px-1">
@@ -404,7 +407,8 @@ export default function GameCharts() {
             return (
               <div
                 key={game.appid}
-                className="flex items-center gap-2 bg-[#252525]/50 rounded-lg p-2"
+                onClick={() => onGameClick?.(game)}
+                className="flex items-center gap-2 bg-[#252525]/50 rounded-lg p-2 cursor-pointer hover:bg-[#252525] transition-colors"
               >
                 <span className="text-[#A1A1A1] font-mono text-[10px] w-4">
                   {index + 1}

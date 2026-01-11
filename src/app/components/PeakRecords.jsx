@@ -145,6 +145,7 @@ export default function PeakRecords({
   showAll: controlledShowAll,
   onToggle,
   hideButton = false,
+  onGameClick,
 }) {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -255,6 +256,7 @@ export default function PeakRecords({
               {displayedGames.map((game, index) => (
                 <tr
                   key={game.appid}
+                  onClick={() => onGameClick?.(game)}
                   className="text-white text-xs font-['Inter'] border-b border-[#2A2A2A] hover:bg-[#252525] transition-colors cursor-pointer"
                 >
                   <td className="py-3 px-2 text-[#A1A1A1]">{index + 1}</td>
@@ -299,7 +301,8 @@ export default function PeakRecords({
           {displayedGames.map((game, index) => (
             <div
               key={game.appid}
-              className="bg-[#252525] rounded-lg p-3 space-y-2"
+              onClick={() => onGameClick?.(game)}
+              className="bg-[#252525] rounded-lg p-3 space-y-2 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
             >
               <div className="flex items-center gap-2">
                 <span className="text-[#A1A1A1] font-mono text-xs w-4">
