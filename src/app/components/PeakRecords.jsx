@@ -101,10 +101,20 @@ function MiniLineChart({ data }) {
     };
 
     setTimeout(updateGradient, 0);
+
+    // Force update on window resize or visibility change
+    const handleResize = () => setTimeout(updateGradient, 0);
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleResize);
+    };
   }, [data]);
 
   return (
-    <div className="w-32 h-10 rounded-lg overflow-hidden relative">
+    <div className="w-20 xs:w-24 sm:w-32 h-10 rounded-lg overflow-hidden relative">
       <Line
         key={data.map((d) => d.value).join(",")}
         ref={chartRef}
@@ -302,50 +312,43 @@ export default function PeakRecords({
             <div
               key={game.appid}
               onClick={() => onGameClick?.(game)}
-              className="bg-[#252525] rounded-lg p-3 space-y-2 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
+              className="flex items-center gap-2 bg-[#252525] rounded-lg p-2.5 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
             >
-              <div className="flex items-center gap-2">
-                <span className="text-[#A1A1A1] font-mono text-xs w-4">
-                  {index + 1}
-                </span>
-                {game.headerImage && (
-                  <img
-                    src={game.headerImage}
-                    alt={game.name}
-                    className="w-14 h-14 object-cover rounded"
-                  />
-                )}
-                <span className="text-white font-['Inter'] text-xs truncate flex-1">
+              <span className="text-[#A1A1A1] font-mono text-[10px] w-4 flex-shrink-0">
+                {index + 1}
+              </span>
+              {game.headerImage && (
+                <img
+                  src={game.headerImage}
+                  alt={game.name}
+                  className="w-12 h-12 object-cover rounded flex-shrink-0"
+                />
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-white font-['Inter'] text-xs truncate mb-0.5">
                   {game.name}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div>
-                  <p className="text-[#A1A1A1] text-[10px]">Peak</p>
-                  <p className="text-[#dfb0ff] font-mono text-xs">
+                </p>
+                <div className="flex items-center gap-2 text-[10px]">
+                  <span className="text-[#A1A1A1]">Peak:</span>
+                  <span className="text-[#dfb0ff] font-mono">
                     {formatNumber(game.peakPlayers)}
-                  </p>
+                  </span>
                 </div>
-                <div>
-                  <p className="text-[#A1A1A1] text-[10px]">Date</p>
-                  <p className="text-[#888] font-mono text-xs">
+                <div className="flex items-center gap-2 text-[10px]">
+                  <span className="text-[#A1A1A1]">Date:</span>
+                  <span className="text-[#888] font-mono">
                     {formatDate(game.peakDate)}
-                  </p>
+                  </span>
                 </div>
               </div>
-
-              <div>
-                <p className="text-[#A1A1A1] text-[10px] mb-1">Last 48 Hours</p>
-                {game.last48Hours && game.last48Hours.length > 0 ? (
+              {game.last48Hours && game.last48Hours.length > 0 && (
+                <div className="flex-shrink-0">
                   <MiniLineChart
                     key={`${game.appid}-${showAll}`}
                     data={game.last48Hours}
                   />
-                ) : (
-                  <div className="w-full h-12 bg-[#1B1B1B] rounded-lg"></div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -76,6 +76,8 @@ export default function AppPage() {
   // Close Steam game modal
   const closeSteamGameModal = () => {
     setSelectedSteamGame(null);
+    // Scroll to top when closing modal
+    window.scrollTo(0, 0);
   };
 
   return (
