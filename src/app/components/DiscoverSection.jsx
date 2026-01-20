@@ -15,6 +15,19 @@ import {
   Layers,
   ExternalLink,
   Star,
+  Sword,
+  Wand2,
+  Map,
+  Gem,
+  ChessRook,
+  Settings,
+  Puzzle,
+  Car,
+  Trophy,
+  HandFist,
+  Rabbit,
+  Globe,
+  Zap,
 } from "lucide-react";
 
 // Local storage keys
@@ -27,20 +40,20 @@ const STORAGE_KEYS = {
 
 // Genre definitions with slugs for RAWG API
 const GENRES = [
-  { id: 4, name: "Action", slug: "action", icon: "⚔️" },
-  { id: 5, name: "RPG", slug: "role-playing-games-rpg", icon: "🧙" },
-  { id: 2, name: "Shooter", slug: "shooter", icon: "🎯" },
-  { id: 3, name: "Adventure", slug: "adventure", icon: "🗺️" },
-  { id: 51, name: "Indie", slug: "indie", icon: "💎" },
-  { id: 10, name: "Strategy", slug: "strategy", icon: "♟️" },
-  { id: 14, name: "Simulation", slug: "simulation", icon: "🎮" },
-  { id: 7, name: "Puzzle", slug: "puzzle", icon: "🧩" },
-  { id: 1, name: "Racing", slug: "racing", icon: "🏎️" },
-  { id: 15, name: "Sports", slug: "sports", icon: "⚽" },
-  { id: 6, name: "Fighting", slug: "fighting", icon: "🥊" },
-  { id: 83, name: "Platformer", slug: "platformer", icon: "🦘" },
-  { id: 59, name: "Massively Multiplayer", slug: "massively-multiplayer", icon: "🌐" },
-  { id: 11, name: "Arcade", slug: "arcade", icon: "👾" },
+  { id: 4, name: "Action", slug: "action", icon: Sword },
+  { id: 5, name: "RPG", slug: "role-playing-games-rpg", icon: Wand2 },
+  { id: 2, name: "Shooter", slug: "shooter", icon: Target },
+  { id: 3, name: "Adventure", slug: "adventure", icon: Map },
+  { id: 51, name: "Indie", slug: "indie", icon: Gem },
+  { id: 10, name: "Strategy", slug: "strategy", icon: ChessRook },
+  { id: 14, name: "Simulation", slug: "simulation", icon: Settings },
+  { id: 7, name: "Puzzle", slug: "puzzle", icon: Puzzle },
+  { id: 1, name: "Racing", slug: "racing", icon: Car },
+  { id: 15, name: "Sports", slug: "sports", icon: Trophy },
+  { id: 6, name: "Fighting", slug: "fighting", icon: HandFist },
+  { id: 83, name: "Platformer", slug: "platformer", icon: Rabbit },
+  { id: 59, name: "Massively Multiplayer", slug: "massively-multiplayer", icon: Globe },
+  { id: 11, name: "Arcade", slug: "arcade", icon: Zap },
 ];
 
 // Game Selection Card
@@ -102,24 +115,25 @@ function GameSelectCard({ game, isSelected, onToggle, delay = 0 }) {
 
 // Genre Selection Card
 function GenreCard({ genre, isSelected, onToggle, delay = 0 }) {
+  const IconComponent = genre.icon;
   return (
     <button
       onClick={() => onToggle(genre)}
       className={`relative px-5 py-3.5 rounded-xl border-2 transition-all duration-200 flex items-center gap-3 ${
         isSelected
-          ? "border-white/40 bg-white/5 ring-2 ring-white/10"
-          : "border-[#2a2a2a] bg-[#1a1a1a] hover:border-[#3a3a3a] hover:bg-[#1f1f1f]"
+          ? "border-violet-500/60 bg-violet-500/10 ring-2 ring-violet-500/20"
+          : "border-[#2a2a2a] bg-[#1a1a1a] hover:border-violet-500/30 hover:bg-[#1f1f1f]"
       }`}
       style={{
         animation: `slideUp 0.3s ease-out ${delay}ms both`,
       }}
     >
-      <span className="text-xl">{genre.icon}</span>
+      <IconComponent className={`w-5 h-5 transition-colors ${isSelected ? "text-violet-400" : "text-[#666]"}`} strokeWidth={2} />
       <span className={`font-medium transition-colors ${isSelected ? "text-white" : "text-[#999]"}`}>
         {genre.name}
       </span>
       {isSelected && (
-        <Check className="w-4 h-4 text-white ml-auto" strokeWidth={3} />
+        <Check className="w-4 h-4 text-violet-400 ml-auto" strokeWidth={3} />
       )}
     </button>
   );
@@ -137,7 +151,7 @@ function RecommendationCard({ game, onRemove, priority = "normal" }) {
 
   return (
     <div
-      className="group relative bg-[#161616] rounded-xl overflow-hidden border border-[#252525] hover:border-[#3a3a3a] transition-all duration-200"
+      className="group relative bg-[#161616] rounded-xl overflow-hidden border border-[#252525] hover:border-violet-500/40 transition-all duration-200"
     >
       <div className="relative aspect-video overflow-hidden">
         <img
@@ -152,8 +166,8 @@ function RecommendationCard({ game, onRemove, priority = "normal" }) {
         
         {/* Priority badge */}
         {priority === "high" && (
-          <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/10 backdrop-blur-sm rounded-full text-xs font-medium text-white/80 flex items-center gap-1.5">
-            <Star className="w-3 h-3" />
+          <div className="absolute top-3 left-3 px-2.5 py-1 bg-violet-500/20 backdrop-blur-sm rounded-full text-xs font-medium text-violet-300 flex items-center gap-1.5 border border-violet-500/30">
+            <Star className="w-3 h-3 text-violet-400" fill="currentColor" />
             Top Pick
           </div>
         )}
@@ -197,7 +211,7 @@ function RecommendationCard({ game, onRemove, priority = "normal" }) {
           )}
           <button
             onClick={handleClick}
-            className="flex items-center gap-1.5 text-xs text-white/50 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 text-xs text-white/50 hover:text-violet-400 transition-colors"
           >
             View
             <ExternalLink className="w-3 h-3" />
@@ -250,7 +264,22 @@ export default function DiscoverSection() {
     const onboardingComplete = localStorage.getItem(STORAGE_KEYS.onboardingComplete);
 
     if (savedGames) setSelectedGames(JSON.parse(savedGames));
-    if (savedGenres) setSelectedGenres(JSON.parse(savedGenres));
+    if (savedGenres) {
+      // Normalize genres: replace old emoji strings with icon components from GENRES array
+      const parsedGenres = JSON.parse(savedGenres);
+      const normalizedGenres = parsedGenres.map((savedGenre) => {
+        // Find matching genre from GENRES array to get the correct icon component
+        const genreFromArray = GENRES.find((g) => g.id === savedGenre.id);
+        if (genreFromArray) {
+          return {
+            ...savedGenre,
+            icon: genreFromArray.icon, // Use the icon component from GENRES
+          };
+        }
+        return savedGenre;
+      });
+      setSelectedGenres(normalizedGenres);
+    }
     if (savedRecs) setRecommendations(JSON.parse(savedRecs));
 
     if (onboardingComplete === "true" && savedRecs) {
@@ -267,7 +296,10 @@ export default function DiscoverSection() {
 
   useEffect(() => {
     if (selectedGenres.length > 0) {
-      localStorage.setItem(STORAGE_KEYS.selectedGenres, JSON.stringify(selectedGenres));
+      // Save genres without icon components (they can't be serialized)
+      // We'll reconstruct them from GENRES array when loading
+      const genresToSave = selectedGenres.map(({ icon, ...rest }) => rest);
+      localStorage.setItem(STORAGE_KEYS.selectedGenres, JSON.stringify(genresToSave));
     }
   }, [selectedGenres]);
 
@@ -413,9 +445,9 @@ export default function DiscoverSection() {
           <div className="text-center max-w-lg mx-auto py-12">
             <div className="flex justify-center mb-8">
               <div className="relative">
-                <div className="absolute inset-0 bg-white/5 blur-2xl rounded-full" />
-                <div className="relative bg-[#1a1a1a] p-6 rounded-2xl border border-[#2a2a2a]">
-                  <Compass className="w-14 h-14 text-[#666]" strokeWidth={1.5} />
+                <div className="absolute inset-0 bg-violet-500/20 blur-2xl rounded-full" />
+                <div className="relative bg-[#1a1a1a] p-6 rounded-2xl border border-violet-500/30">
+                  <Compass className="w-14 h-14 text-violet-400" strokeWidth={1.5} />
                 </div>
               </div>
             </div>
@@ -430,22 +462,22 @@ export default function DiscoverSection() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
               <div className="flex items-center gap-3 text-[#555]">
-                <div className="w-8 h-8 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center">
-                  <Target className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-violet-500/10 border border-violet-500/30 flex items-center justify-center">
+                  <Target className="w-4 h-4 text-violet-400" />
                 </div>
                 <span className="text-sm">Pick 3+ games</span>
               </div>
-              <div className="hidden sm:block w-8 h-px bg-[#2a2a2a]" />
+              <div className="hidden sm:block w-8 h-px bg-violet-500/20" />
               <div className="flex items-center gap-3 text-[#555]">
-                <div className="w-8 h-8 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center">
-                  <Layers className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-violet-500/10 border border-violet-500/30 flex items-center justify-center">
+                  <Layers className="w-4 h-4 text-violet-400" />
                 </div>
                 <span className="text-sm">Choose 2+ genres</span>
               </div>
-              <div className="hidden sm:block w-8 h-px bg-[#2a2a2a]" />
+              <div className="hidden sm:block w-8 h-px bg-violet-500/20" />
               <div className="flex items-center gap-3 text-[#555]">
-                <div className="w-8 h-8 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center">
-                  <Sparkles className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-violet-500/10 border border-violet-500/30 flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-violet-400" />
                 </div>
                 <span className="text-sm">Get recommendations</span>
               </div>
@@ -453,7 +485,7 @@ export default function DiscoverSection() {
 
             <button
               onClick={startDiscovery}
-              className="bg-white text-black font-semibold px-8 py-4 rounded-xl hover:bg-white/90 transition-all duration-200 flex items-center gap-2 mx-auto group"
+              className="bg-violet-600 text-white font-semibold px-8 py-4 rounded-xl hover:bg-violet-500 transition-all duration-200 flex items-center gap-2 mx-auto group shadow-lg shadow-violet-500/20"
             >
               Get Started
               <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
@@ -537,7 +569,7 @@ export default function DiscoverSection() {
                 disabled={selectedGames.length < MIN_GAMES}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                   selectedGames.length >= MIN_GAMES
-                    ? "bg-white text-black hover:bg-white/90"
+                    ? "bg-violet-600 text-white hover:bg-violet-500 shadow-lg shadow-violet-500/20"
                     : "bg-[#252525] text-[#555] cursor-not-allowed"
                 }`}
               >
@@ -625,7 +657,7 @@ export default function DiscoverSection() {
                 disabled={selectedGenres.length < MIN_GENRES}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                   selectedGenres.length >= MIN_GENRES
-                    ? "bg-white text-black hover:bg-white/90"
+                    ? "bg-violet-600 text-white hover:bg-violet-500 shadow-lg shadow-violet-500/20"
                     : "bg-[#252525] text-[#555] cursor-not-allowed"
                 }`}
               >
@@ -641,7 +673,7 @@ export default function DiscoverSection() {
         if (loadingRecs) {
           return (
             <div className="text-center py-24">
-              <Loader2 className="w-10 h-10 text-[#444] animate-spin mx-auto mb-4" />
+              <Loader2 className="w-10 h-10 text-violet-400 animate-spin mx-auto mb-4" />
               <p className="text-[#666]">Finding games for you...</p>
             </div>
           );
@@ -652,7 +684,7 @@ export default function DiscoverSection() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div>
                 <h2 className="text-white text-2xl font-bold mb-2 flex items-center gap-3">
-                  <Sparkles className="w-6 h-6 text-[#555]" />
+                  <Sparkles className="w-6 h-6 text-violet-400" />
                   Your Recommendations
                 </h2>
                 <p className="text-[#666] text-sm">
@@ -662,14 +694,14 @@ export default function DiscoverSection() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={refreshRecommendations}
-                  className="flex items-center gap-2 bg-[#1a1a1a] text-[#888] font-medium px-4 py-2.5 rounded-xl hover:bg-[#252525] hover:text-white transition-all text-sm border border-[#252525]"
+                  className="flex items-center gap-2 bg-[#1a1a1a] text-[#888] font-medium px-4 py-2.5 rounded-xl hover:bg-violet-500/10 hover:text-violet-400 hover:border-violet-500/30 transition-all text-sm border border-[#252525]"
                 >
                   <RotateCcw className="w-4 h-4" />
                   Refresh
                 </button>
                 <button
                   onClick={() => setStep(1)}
-                  className="flex items-center gap-2 bg-[#1a1a1a] text-[#888] font-medium px-4 py-2.5 rounded-xl hover:bg-[#252525] hover:text-white transition-all text-sm border border-[#252525]"
+                  className="flex items-center gap-2 bg-[#1a1a1a] text-[#888] font-medium px-4 py-2.5 rounded-xl hover:bg-violet-500/10 hover:text-violet-400 hover:border-violet-500/30 transition-all text-sm border border-[#252525]"
                 >
                   <Target className="w-4 h-4" />
                   Edit Preferences
@@ -679,14 +711,33 @@ export default function DiscoverSection() {
 
             {/* Selection summary */}
             <div className="flex flex-wrap gap-2 mb-6">
-              {selectedGenres.map((genre) => (
-                <span
-                  key={genre.id}
-                  className="text-xs px-3 py-1.5 bg-[#1a1a1a] text-[#777] rounded-full border border-[#252525]"
-                >
-                  {genre.icon} {genre.name}
-                </span>
-              ))}
+              {selectedGenres.map((genre) => {
+                // Ensure we have the correct icon component from GENRES array
+                const genreFromArray = GENRES.find((g) => g.id === genre.id);
+                const IconComponent = genreFromArray?.icon || genre.icon;
+                
+                // Safety check: if icon is still a string (old format), skip rendering it
+                if (typeof IconComponent === 'string') {
+                  return (
+                    <span
+                      key={genre.id}
+                      className="text-xs px-3 py-1.5 bg-violet-500/10 text-violet-300 rounded-full border border-violet-500/30"
+                    >
+                      {genre.name}
+                    </span>
+                  );
+                }
+                
+                return (
+                  <span
+                    key={genre.id}
+                    className="text-xs px-3 py-1.5 bg-violet-500/10 text-violet-300 rounded-full border border-violet-500/30 flex items-center gap-1.5"
+                  >
+                    <IconComponent className="w-3 h-3" strokeWidth={2} />
+                    {genre.name}
+                  </span>
+                );
+              })}
             </div>
 
             {recommendations.length > 0 ? (
@@ -705,12 +756,12 @@ export default function DiscoverSection() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-[#161616] rounded-xl border border-[#1f1f1f]">
-                <Gamepad2 className="w-12 h-12 text-[#333] mx-auto mb-3" />
+              <div className="text-center py-16 bg-[#161616] rounded-xl border border-violet-500/20">
+                <Gamepad2 className="w-12 h-12 text-violet-500/30 mx-auto mb-3" />
                 <p className="text-[#666]">No recommendations found</p>
                 <button
                   onClick={refreshRecommendations}
-                  className="mt-4 text-[#666] hover:text-white text-sm font-medium transition-colors"
+                  className="mt-4 text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
                 >
                   Try refreshing
                 </button>
@@ -718,10 +769,10 @@ export default function DiscoverSection() {
             )}
 
             {/* Reset option */}
-            <div className="mt-10 pt-6 border-t border-[#1f1f1f]">
+            <div className="mt-10 pt-6 border-t border-violet-500/10">
               <button
                 onClick={resetAllData}
-                className="flex items-center gap-2 text-[#444] hover:text-red-400/70 text-sm transition-colors mx-auto"
+                className="flex items-center gap-2 text-[#444] hover:text-violet-400 text-sm transition-colors mx-auto"
               >
                 <RotateCcw className="w-4 h-4" />
                 Start Over
@@ -749,7 +800,7 @@ export default function DiscoverSection() {
           }
         }
       `}</style>
-      <div className="bg-[#111] rounded-2xl p-6 sm:p-10 border border-[#1f1f1f] min-h-[500px]">
+      <div className="bg-[#111] rounded-2xl p-6 sm:p-10 border border-violet-500/20 min-h-[500px]">
         {renderStep()}
       </div>
     </div>
