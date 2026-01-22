@@ -1,7 +1,9 @@
 import Spline from "@splinetool/react-spline";
 
-export default function App() {
+export default function SplineRobot() {
   return (
-    <Spline scene="https://prod.spline.design/FVWhrgXbZnxB9lHz/scene.splinecode" />
+    <div style={{ width: "100%", height: "100%" }}>
+      <Spline scene="https://prod.spline.design/YM9isBi2AE-SOM77/scene.splinecode" />
+    </div>
   );
 }

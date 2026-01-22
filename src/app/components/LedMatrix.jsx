@@ -131,8 +131,21 @@ export default function LedMatrix({
           left: 0,
           right: 0,
           bottom: 0,
+          height: "90%",
           background:
             "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          height: "30%",
+          right: 0,
+          background:
+            "linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%)",
           pointerEvents: "none",
         }}
       />
