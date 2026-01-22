@@ -1,15 +1,7 @@
-"use client";
-
-import { useRef, useEffect } from "react";
 import Spline from "@splinetool/react-spline";
 
-export default function SplineRobot({ className = "", style = {} }) {
+export default function App() {
   return (
-    <div
-      className={className}
-      style={{ width: "100%", height: "100%", ...style }}
-    >
-      <Spline scene="https://prod.spline.design/FVWhrgXbZnxB9lHz/scene.splinecode" />
-    </div>
+    <Spline scene="https://prod.spline.design/FVWhrgXbZnxB9lHz/scene.splinecode" />
   );
 }
