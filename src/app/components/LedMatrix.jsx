@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import SplineRobot from "./SplineRobot";
 
 export default function LedMatrix({
   shapeType = "Square", // "Square" or "Circle"

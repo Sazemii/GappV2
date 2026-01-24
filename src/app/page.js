@@ -19,23 +19,30 @@ export default function Home() {
         />
       </div>
 
-      {/* Content on top */}
+      {/* Spline Robot - Full viewport, ON TOP for cursor tracking */}
+      <div className="absolute inset-0 h-screen z-20">
+        <div style={{ width: "100%", height: "100%" }}>
+          <SplineRobot />
+        </div>
+      </div>
+
+      {/* Content - below Spline but interactive elements poke through */}
       <main className="relative z-10">
         {/* First section with LED background */}
         <div className="flex min-h-screen flex-col p-8">
           {/* Navigation */}
-          <div className=" w-full flex justify-center ">
+          <div className="w-full flex justify-center relative z-30">
             <HomeNavBar />
           </div>
 
           {/* Hero Section - centered */}
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex-1 flex items-center justify-center relative z-30 pt-30">
             <Hero />
           </div>
         </div>
 
         {/* Additional content sections with white background */}
-        <div className="bg-white min-h-screen p-8">
+        <div className="bg-white min-h-screen p-8 relative z-30">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               More Content

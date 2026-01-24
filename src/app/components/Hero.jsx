@@ -1,18 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import SplineRobot from "./SplineRobot";
 
 export default function Hero() {
   return (
-    <section className="relative flex flex-col items-center justify-center text-center px-4 min-h-[600px]">
-      {/* Spline Robot - Absolutely positioned in background */}
-      <div className="absolute top-[0%] left-1/2 -translate-x-1/2 -translate-y-1/2  w-full h-full max-w-[800px] max-h-[600px] z-2">
-        <SplineRobot />
-      </div>
-
-      {/* Content - On top of Spline */}
-      <div className="relative z-1">
+    <section className="relative flex flex-col items-center justify-center text-center px-4">
+      {/* Content */}
+      <div className="relative z-10">
         {/* Main Heading */}
         <h1 className="font-['Inter'] text-4xl sm:text-5xl lg:text-6xl font-bold text-black max-w-4xl leading-tight">
           Your Personal Game Discovery Engine
