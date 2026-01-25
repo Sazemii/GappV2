@@ -41,7 +41,7 @@ ChartJS.register(
   LineElement,
   PointElement,
   Tooltip,
-  Filler
+  Filler,
 );
 
 // Player history chart component
@@ -110,7 +110,7 @@ function PlayerHistoryChart({ data }) {
       0,
       chartArea.top,
       0,
-      chartArea.bottom
+      chartArea.bottom,
     );
     gradient.addColorStop(0, "rgba(167, 139, 250, 0.4)");
     gradient.addColorStop(1, "rgba(167, 139, 250, 0)");
@@ -206,7 +206,7 @@ export default function SteamGameDetail({ game, onClose }) {
   const nextScreenshot = () => {
     if (gameDetails?.screenshots) {
       setCurrentScreenshot((prev) =>
-        prev === gameDetails.screenshots.length - 1 ? 0 : prev + 1
+        prev === gameDetails.screenshots.length - 1 ? 0 : prev + 1,
       );
     }
   };
@@ -214,7 +214,7 @@ export default function SteamGameDetail({ game, onClose }) {
   const prevScreenshot = () => {
     if (gameDetails?.screenshots) {
       setCurrentScreenshot((prev) =>
-        prev === 0 ? gameDetails.screenshots.length - 1 : prev - 1
+        prev === 0 ? gameDetails.screenshots.length - 1 : prev - 1,
       );
     }
   };
@@ -325,12 +325,12 @@ export default function SteamGameDetail({ game, onClose }) {
                     <div className="flex items-center gap-1.5 lg:gap-2 bg-white/5 px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border border-white/10">
                       <Star
                         className={`w-4 h-4 lg:w-6 lg:h-6 ${getReviewColor(
-                          gameDetails.reviews.reviewScoreDesc
+                          gameDetails.reviews.reviewScoreDesc,
                         )} fill-current`}
                       />
                       <span
                         className={`font-bold text-sm lg:text-xl ${getReviewColor(
-                          gameDetails.reviews.reviewScoreDesc
+                          gameDetails.reviews.reviewScoreDesc,
                         )}`}
                       >
                         {gameDetails.reviews.reviewScoreDesc}
@@ -342,7 +342,7 @@ export default function SteamGameDetail({ game, onClose }) {
                   {gameDetails.metacritic && (
                     <div
                       className={`px-3 py-2 lg:px-5 lg:py-3 rounded-xl lg:rounded-2xl border ${getMetacriticColor(
-                        gameDetails.metacritic.score
+                        gameDetails.metacritic.score,
                       )}`}
                     >
                       <span className="font-bold text-sm lg:text-xl">
@@ -593,7 +593,7 @@ export default function SteamGameDetail({ game, onClose }) {
                           <div className="flex items-center justify-between mb-2">
                             <span
                               className={`font-bold text-sm lg:text-lg ${getReviewColor(
-                                gameDetails.reviews.reviewScoreDesc
+                                gameDetails.reviews.reviewScoreDesc,
                               )}`}
                             >
                               {gameDetails.reviews.reviewScoreDesc}
