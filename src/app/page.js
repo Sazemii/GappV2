@@ -36,7 +36,7 @@ export default function Home() {
           </div>
 
           {/* Hero Section - centered */}
-          <div className="flex-1 flex items-center justify-center relative z-30 pt-30">
+          <div className="flex-1 flex items-center justify-center relative z-30 pt-20 min-[440px]:pt-0 sm:pt-23 md:pt-[8rem] ">
             <Hero />
           </div>
         </div>

@@ -8,7 +8,7 @@ export default function LedMatrix({
   size = 10,
   gap = 2,
   primaryColor = "#000000",
-  secondaryColor = "rgb(229, 231, 235)", // Light grey slots
+  secondaryColor = "rgb(220, 220, 220)", // Light grey slots
   probability = 4, // Percentage of accent color dots
   animSpeed = 90, // Animation speed (1-100)
   className = "",
