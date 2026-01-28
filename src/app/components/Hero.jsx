@@ -18,19 +18,23 @@ export default function Hero() {
           one place.
         </p>
 
-        {/* Buttons */}
+        {/* Buttons with hover interactions */}
         <div className="flex flex-row gap-2 sm:gap-4 mt-5 sm:mt-8 justify-center items-center">
           <Link
             href="/app"
-            className="font-['Inter'] font-medium text-xs sm:text-base px-3 sm:px-8 py-2 sm:py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors text-center whitespace-nowrap"
+            className="group relative font-['Inter'] font-medium text-xs sm:text-base px-3 sm:px-8 py-2 sm:py-3 bg-black text-white rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-black/20"
           >
-            Start Exploring
+            <span className="relative z-10">Start Exploring</span>
+            {/* Subtle shine effect on hover */}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
           </Link>
           <Link
             href="/app#charts"
-            className="font-['Inter'] font-medium text-xs sm:text-base px-3 sm:px-8 py-2 sm:py-3 bg-white text-black border-2 border-black rounded-full hover:bg-gray-100 transition-colors text-center whitespace-nowrap"
+            className="group relative font-['Inter'] font-medium text-xs sm:text-base px-3 sm:px-8 py-2 sm:py-3 bg-white text-black border-2 border-black rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:bg-gray-50"
           >
-            View Charts
+            <span className="relative z-10">View Charts</span>
+            {/* Subtle border glow on hover */}
+            <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[inset_0_0_0_2px_rgba(0,0,0,0.1)]" />
           </Link>
         </div>
       </div>

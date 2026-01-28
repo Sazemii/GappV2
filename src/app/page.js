@@ -2,6 +2,8 @@ import LedMatrix from "./components/LedMatrix";
 import SplineRobot from "./components/SplineRobot";
 import HomeNavBar from "./components/homeNavBar";
 import Hero from "./components/Hero";
+import BentoBoxes from "./components/BentoBoxes";
+import HowItWorks from "./components/HowItWorks";
 
 export default function Home() {
   return (
@@ -41,17 +43,14 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Additional content sections with white background */}
-        <div className="bg-white min-h-screen p-8 relative z-30">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              More Content
-            </h2>
-            <p className="text-gray-600">
-              This section has a clean white background. Scroll to see the
-              transition.
-            </p>
-          </div>
+        {/* Bento Boxes Section */}
+        <div className="relative z-30">
+          <BentoBoxes />
+        </div>
+
+        {/* How It Works Section */}
+        <div className="relative z-30">
+          <HowItWorks />
         </div>
       </main>
     </div>
