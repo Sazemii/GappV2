@@ -20,7 +20,7 @@ export default function HomeNavBar() {
           <Link
             key={item.name}
             href={item.href}
-            className="group relative font-['Inter'] text-[14px] text-black transition-colors hover:text-gray-600 pointer-events-auto"
+            className="group relative font-['Inter'] text-[14px] text-black transition-colors pointer-events-auto"
           >
             <span>{item.name}</span>
             {/* Subtle underline animation like /app navbar */}
