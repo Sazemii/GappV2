@@ -9,13 +9,13 @@ export default function HomeNavBar() {
   ];
 
   return (
-    <nav className="bg-[#D9D9D9] rounded-[30px] px-6 sm:px-8 py-3 flex items-center justify-between h-fit w-[30rem] max-w-[800px] z-50 relative pointer-events-none">
+    <nav className="bg-[#D9D9D9] rounded-[30px] px-6 sm:px-8 py-3 flex items-center justify-between h-fit w-[30rem] max-w-[800px] z-50 relative pointer-events-auto">
       <span className="font-['ADLaM_Display'] text-[18px] sm:text-[22px] text-black font-normal pointer-events-auto">
         GAPP
       </span>
 
       {/* Nav Items with subtle underline animation */}
-      <div className="flex gap-6 lg:gap-8 items-center">
+      <div className="flex gap-6 lg:gap-8 items-center pointer-events-auto">
         {navItems.map((item) => (
           <Link
             key={item.name}

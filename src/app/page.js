@@ -1,3 +1,4 @@
+// Home.jsx
 import LedMatrix from "./components/LedMatrix";
 import SplineRobot from "./components/SplineRobot";
 import HomeNavBar from "./components/homeNavBar";
@@ -5,6 +6,7 @@ import Hero from "./components/Hero";
 import BentoBoxes from "./components/BentoBoxes";
 import HowItWorks from "./components/HowItWorks";
 
+// Home.jsx
 export default function Home() {
   return (
     <div className="relative bg-white">
@@ -23,8 +25,13 @@ export default function Home() {
 
       {/* Content layer */}
       <main className="relative z-10">
+        {/* Spline Robot - inside main, with pointer-events auto */}
+        <div className="absolute inset-0 h-screen">
+          <SplineRobot />
+        </div>
+
         {/* First section with LED background */}
-        <div className="flex min-h-screen flex-col p-8">
+        <div className="flex min-h-screen flex-col p-8 relative z-10 pointer-events-none">
           {/* Navigation */}
           <div className="w-full flex justify-center relative">
             <HomeNavBar />
@@ -37,20 +44,15 @@ export default function Home() {
         </div>
 
         {/* Bento Boxes Section */}
-        <div className="relative">
+        <div className="relative z-10 pointer-events-auto">
           <BentoBoxes />
         </div>
 
         {/* How It Works Section */}
-        <div className="relative">
+        <div className="relative z-10 pointer-events-auto">
           <HowItWorks />
         </div>
       </main>
-
-      {/* Spline Robot - on top, configure pass-through in Spline editor */}
-      <div className="absolute inset-0 h-screen z-20">
-        <SplineRobot />
-      </div>
     </div>
   );
 }
